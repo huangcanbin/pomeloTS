@@ -1,0 +1,34 @@
+[
+    {
+        "type": "connector",
+        "token": "fe0003e1bd1ac0931fc247d9a2fa2521db97cb0b9037475d2cb731"
+    },
+    {
+        "type": "gate",
+        "token": "fe0003e1bd1ac0931fc247d9a2fa2521db97cb0b9037475d2cb731"
+    },
+    {
+        "type": "area",
+        "token": "fe0003e1bd1ac0931fc247d9a2fa2521db97cb0b9037475d2cb731"
+    },
+    {
+        "type": "chat",
+        "token": "fe0003e1bd1ac0931fc247d9a2fa2521db97cb0b9037475d2cb731"
+    },
+    {
+        "type": "activity",
+        "token": "fe0003e1bd1ac0931fc247d9a2fa2521db97cb0b9037475d2cb731"
+    },
+    {
+        "type": "combat",
+        "token": "fe0003e1bd1ac0931fc247d9a2fa2521db97cb0b9037475d2cb731"
+    },
+    {
+        "type": "sensitive",
+        "token": "fe0003e1bd1ac0931fc247d9a2fa2521db97cb0b9037475d2cb731"
+    },
+    {
+        "type": "push",
+        "token": "fe0003e1bd1ac0931fc247d9a2fa2521db97cb0b9037475d2cb731"
+    }
+]

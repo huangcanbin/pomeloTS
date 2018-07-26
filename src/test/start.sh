@@ -1,0 +1,1 @@
+python gateTest.py 192.168.9.172 7660

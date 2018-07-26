@@ -1,0 +1,34 @@
+{
+    "development": {
+        "config": [
+            {
+                "driver": "mysql",
+                "host": "192.168.9.169",
+                "port": 3306,
+                "username": "root",
+                "password": "123abc",
+                "database": "bgx_center",
+                "autoReconnect": true,
+                "acquireTimeout": 6000,
+                "timezone": "+8:00",
+                "pool": true
+            }
+        ],
+        "cache": [
+            {
+                "driver": "redis",
+                "host": "192.168.9.171",
+                "port": "6700",
+                "database": 10
+            }
+        ]
+    },
+    "production": [
+        {
+            "driver": "redis",
+            "host": "192.168.181.54",
+            "port": "6379",
+            "database": 1
+        }
+    ]
+}

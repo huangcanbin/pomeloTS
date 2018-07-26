@@ -1,0 +1,23 @@
+{
+    "appId": "4B69AF1C901449CF8914A8F2967CC9B1",
+    "online": {
+        "name": "online",
+        "key": "5FF955A118A54C548D3BC8D2C77F5DC2"
+    },
+    "login": {
+        "name": "login",
+        "key": "E5ADC3B1CE2B4E9585A67024C27EED03"
+    },
+    "charge": {
+        "name": "charge",
+        "key": "56472F9A80AC43829D896B4FFBF32248"
+    },
+    "consume": {
+        "name": "consume",
+        "key": "F7B834C6819C491D940628140624B902"
+    },
+    "event": {
+        "name": "event",
+        "key": "6AC8BFB84267423195C309608BF762F1"
+    }
+}

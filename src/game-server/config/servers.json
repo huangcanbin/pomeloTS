@@ -1,0 +1,111 @@
+{
+  "development": {
+    "gate": [
+      {
+        "id": "gate-server-1",
+        "host": "127.0.0.1",
+        "clientPort": 7660,
+        "frontend": true
+      }
+    ],
+    "connector": [
+      {
+        "id": "connector-server-1",
+        "host": "127.0.0.1",
+        "port": 6110,
+        "clientHost": "127.0.0.1",
+        "clientPort": 7610,
+        "frontend": true,
+        "args": "--inspect=32312"
+      }
+    ],
+    "area": [
+      {
+        "id": "area-server-1",
+        "host": "127.0.0.1",
+        "port": 6211,
+        "area": 1,
+        "args": "--inspect=32313"
+      }
+    ],
+    "combat": [
+      {
+        "id": "combat-server-1",
+        "host": "127.0.0.1",
+        "port": 6311,
+        "args": "--inspect=32314"
+      }
+    ],
+    "sensitive": [
+      {
+        "id": "sensitive-server-1",
+        "host": "127.0.0.1",
+        "port": 6411,
+        "args": "--inspect=32315"
+      }
+    ],
+    "push": [
+      {
+        "id": "push-server-1",
+        "host": "127.0.0.1",
+        "port": 6511,
+        "args": "--inspect=32316"
+      }
+    ]
+  },
+  "production": {
+    "gate": [
+      {
+        "id": "gate-server-1",
+        "host": "192.168.181.53",
+        "clientPort": 7660,
+        "frontend": true
+      }
+    ],
+    "connector": [
+      {
+        "id": "connector-server-1",
+        "host": "192.168.181.53",
+        "port": 6110,
+        "clientHost": "192.168.181.53",
+        "clientPort": 7610,
+        "frontend": true
+      }
+    ],
+    "area": [
+      {
+        "id": "area-server-1",
+        "host": "192.168.181.53",
+        "port": 6211,
+        "area": 1
+      },
+      {
+        "id": "area-server-2",
+        "host": "192.168.181.53",
+        "port": 6212,
+        "area": 2
+      }
+    ],
+    "combat": [
+      {
+        "id": "combat-server-1",
+        "host": "192.168.181.53",
+        "port": 6311
+      }
+    ],
+    "sensitive": [
+      {
+        "id": "sensitive-server-1",
+        "host": "192.168.181.53",
+        "port": 6411
+      }
+    ],
+    "push": [
+      {
+        "id": "push-server-1",
+        "host": "192.168.181.53",
+        "port": 6511
+      }
+    ]
+  }
+}

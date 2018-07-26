@@ -1,0 +1,649 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>
+    征服-H5
+  </title>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+  <meta http-equiv="content-style-type" content="text/css" />
+  <meta http-equiv="content-scripte-type" content="text/javascript" />
+  <meta name="author" content="netease" />
+  <meta name="version" content="1.0" />
+  <meta name="keywords" content="pomelo" />
+  <link type="text/css" rel="stylesheet" href="css/base.css" />
+  <script src="js/lib/build/build.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    require('boot');
+  </script>
+  <script src="js/client-api.js" type="text/javascript"></script>
+</head>
+
+<body onload="onLoad()">
+  <div id="loginPanel" class="g-doc">
+    <div class="g-banner" style="border:none">
+      <div class="logo">
+        <div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="g-content">
+        <h2>征服-H5</h2>
+      </div>
+    </div>
+    <div class="g-button">
+      <label>Token:</label>
+      <input id="itToken" type="text" value="" />
+      <input id="btlogin" type="button" value="登录" onclick="login()" />
+    </div>
+  </div>
+  <div id="mainPanel" class="g-doc">
+    <h2>征服-H5 APIs</h2>
+    <div id="menu">
+      <ul>
+        <li>
+          <a href="javascript:;" onclick="onAreaQuery()">获取游戏区</a>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onCreateRole()">创建角色</a>
+          <br>
+          <span>角色名：</span>
+          <input id="itRoleName" type="text" />
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onEntryScence()">进入主场景</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onConfigCheck()">配置更新</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onConfigGet()">获取/更新配置缓存</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onBossCombotStart()">Boos挑战</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onBugEnergy()">补充体力</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onBossExtract()">一分种抽奖</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onGetPlayerInfo()">获取玩家信息</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onSelectedPoint()">选择关卡</a>
+              <br>
+              <span>关卡Id：</span>
+              <input id="selectedPointId" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onPointFindAward()">查看关卡奖励列表</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onPointGetAward()">领取关卡奖励</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onOnceRechargeGetAward()">领取关卡一次充值25元奖励</a>
+              <br>
+              <span>奖励编号：</span>
+              <input id="pointGetAwardId" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onOfflineTimes()">离线挂机收益翻倍</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onEntrySummon()">召唤场景</a>
+
+          <ul>
+            <li>
+              <span>消耗类型：</span>
+              <select id="it_costType">
+                <option value="1">勾玉抽</option>
+                <option value="2">金币抽</option>
+                <option value="3">奖券抽</option>
+                <option value="5">XP抽</option>
+              </select>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onSummonTake()">单抽</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onSummonTakeTen()">10连抽</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onEntryGoblin()">百鬼夜行</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onBuyBean()">补充仙豆</a>
+              <br>
+              <span>补充方式：</span>
+              <input id="buyBeanNum" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onChallengeGoblin()">挑战BOSS</a>
+              <br>
+              <span>bossId：</span>
+              <input id="challengeBossId" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onAttackGoblin()">攻击BOSS</a>
+              <br>
+              <span>boss剩余血量：</span>
+              <input id="bossRemHp" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onHeroBookQuery()">获取玩家式神列表</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onAddHeroBags()">扩充式神背包</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onHeroSmelt()">式神熔炼</a>
+              <br>
+              <span>熔炼式神ID：</span>
+              <input id="smeltHids" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onGetIllustrated()">获取玩家图鉴</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onGetIllAch()">查看图鉴成就</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onGetIllAchAward()">领取图鉴成就奖励</a>
+              <br>
+              <span>领取的成就ID：</span>
+              <input id="illAchId" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onCultivate()">强化阵位升级、强化、进化</a>
+          <br>
+          <span>阵位编号：</span>
+          <input id="cultivatePos" type="text" />
+          <span>强化类型：</span>
+          <input id="cultivateType" type="text" />
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onGetIntensifyCost()">获取强化阵位消耗信息</a>
+              <br>
+              <span>阵位编号：</span>
+              <input id="intensifyCostPos" type="text" />
+              <span>强化类型：</span>
+              <input id="intensifyCostType" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onLineupOneButUpg()">阵位一键升级</a>
+              <br>
+              <span>阵位编号：</span>
+              <input id="lineupOneButUpgPos" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onLineupQuery()">获取玩家阵位列表和阵位上的式神</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onLineupAdd()">提前开启式神位</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onLineupSetHero()">式神上阵</a>
+              <br>
+              <span>上阵式神ID：</span>
+              <input id="lineupHeroId" type="text" />
+              <span>上阵位置编号：</span>
+              <input id="lineupPos" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onUseItem()">使用物品</a>
+          <br>
+          <span>物品编号：</span>
+          <input id="userItemId" type="text" />
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onQueryBags()">获取背包列表</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onComposeItem()">合成物品</a>
+              <br>
+              <span>物品编号：</span>
+              <input id="composeItemId" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onVendItem()">出售物品</a>
+              <br>
+              <span>物品编号：</span>
+              <input id="vendItemId" type="text" />
+              <span>出售数量：</span>
+              <input id="vendNum" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onAddBags()">扩充背包</a>
+              <br>
+              <span>背包类型：</span>
+              <input id="addBagsType" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onBuyItem()">购买物品</a>
+          <br>
+          <span>物品编号：</span>
+          <input id="buyItemId" type="text" />
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onShopItem()">物品商店列表</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onShopHero()">式神商店列表</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onExchangeHero()">兑换式神</a>
+              <br>
+              <span>式神编号：</span>
+              <input id="exchangeHeroId" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onRefreshHero()">刷新式神商店</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onIdentification()">实名认证</a>
+          <br>
+          <span>姓名:</span>
+          <input id="identName" type="text" />
+          <span>身份证号：</span>
+          <input id="identIDNumber" type="text" />
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onVipCardGetUseInfo()">获取特权卡使用情况</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onVipCardGetPriceAndAward()">获取特权卡价格和奖励信息</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onVipCardBuy()">购买特权卡</a>
+              <br>
+              <span>特权卡类型：</span>
+              <input id="buyCardType" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onVipCardGetAward()">领取特权卡每日奖励</a>
+              <br>
+              <span>特权卡类型：</span>
+              <input id="getAwardCardType" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onGetTask()">查看任务</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onGetTaskAward()">领取任务奖励</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onGetStatus()">获取当前任务状态</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onRechargeGetStatus()">查看充值奖励状态</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onRechargeGet()">查看充值奖励内容</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onRechargeGetAward()">领取充值奖励</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onRecharge()">充值</a>
+              <br>
+              <span>充值金额：</span>
+              <input id="rechargeMoney" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onTowerGetTower()">查看镇妖塔信息</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onTowerCombat()">挑战镇妖塔</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onTowerReset()">重置镇妖塔</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onTowerSweep()">扫荡镇妖塔</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onSignShowAward()">查看签到奖励列表</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onSignGetAward()">领取奖励</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onSignGetAccuAward()">领取累计奖励</a>
+              <br>
+              <span>累计天数：</span>
+              <input id="accuday" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onSignGetVipAward()">领取Vip每日奖励</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onGetRankInfo()">获取排行信息</a>
+        </li>
+        <li>
+          <a href="javascript:;" >兑换</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onExchangeItem()">兑换物品</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onExchangeHero()">兑换式神</a>
+              <br>
+              <span>材料id：</span>
+              <input id="exchangeid" type="text" />
+              <br>
+              <span>材料数量：</span>
+              <input id="exchangenum" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >妖怪雨</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onheropiecerainget()">获取掉落碎片数量</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onheropiecerainaward()">实际得到碎片数量</a>
+              <br>
+              <span>碎片数量：</span>
+              <input id="piecenum" type="text" />
+              <br>
+              <span>碎片数量：</span>
+              <input id="piecenum1" type="text" />
+              <br>
+              <span>碎片数量：</span>
+              <input id="piecenum2" type="text" />
+              <br>
+              <span>碎片数量：</span>
+              <input id="piecenum3" type="text" />
+              <br>
+              <span>碎片数量：</span>
+              <input id="piecenum4" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >精英BOSS挑战</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onBossCombat()">挑战</a>
+              <br>
+              <span>大关ID：</span>
+              <input id="stageid" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >邮件功能</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onSendMaile()">发送邮件</a>
+              <br>
+              <span>标题：</span>
+              <input id="title" type="text" />
+              <br>
+              <span>内容：</span>
+              <input id="content" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onGetMail()">查询邮件</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onReadMail()">读取邮件</a>
+              <br>
+              <span>邮件ID：</span>
+              <input id="mailid" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onDelMail()">删除邮件</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onGetMailAward()">领取邮件奖励</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >首日在线及七天在线功能</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onFindFirstOnlineAward()">查看奖励</a>
+              <br>
+              <span>查看类型：</span>
+              <input id="firstonlinetype" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onGetFirstOnlineAward()">获得奖励</a>
+              <br>
+              <span>奖励档次：</span>
+              <input id="firstonlineday" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >小红点功能</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onGetRedPointInfo()">获取小红点列表</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onUpRedPointStatus()">修改小红点状态</a>
+              <br>
+              <span>红点类型：</span>
+              <input id="rpType" type="text" />
+              <br>
+              <span>对应类型的步骤或层级：</span>
+              <input id="rpId" type="text" />
+              <br>
+              <span>状态值（0或1）：</span>
+              <input id="rpStatus" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >日常任务功能</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onDailyTaskList()">查看日常任务列表</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onDailyTaskAward()">领取日常任务奖励</a>
+              <br>
+              <span>奖励Id：</span>
+              <input id="dailyTaskAwardId" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onLastDailyTaskAward()">补领前日日常任务奖励</a>
+              <br>
+              <span>补领方式[ 0:只取免费;1:付费全取 ]：</span>
+              <input id="remedialType" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >成就任务功能</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onAchieveTaskList()">查看成就任务列表</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onAchieveTaskAward()">领取成就任务奖励</a>
+              <br>
+              <span>奖励Id：</span>
+              <input id="achieveTaskId" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >充值返利</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onFindFirstRechargeRebate()">查看奖励</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onGetFirstRechargeRebate()">获得奖励</a>
+              <br>
+              <span>查看类型：</span>
+              <input id="Rebatetype" type="text" />
+              <br>
+              <span>奖励档次：</span>
+              <input id="Rebateid" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >轮盘抽奖</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onFindRouletteRecord()">查看抽奖记录</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onRoulette()">抽奖</a>
+              <br>
+              <span>奖励档次：</span>
+              <input id="roulettemoney" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onGetVipConfig()">获取vip特权配置信息</a>
+        </li>
+        <li>
+          <a href="javascript:;" >命格养成</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onFindLifeLikeByLevel()">查询某重的命格属性</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onOpenLifeLikeByLevel()">开通某重命格</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onLifeLikeByBall()">命格养成</a>
+              <br>
+              <span>层级：</span>
+              <input id="llLevel" type="text" />
+              <br>
+              <span>第几颗球：</span>
+              <input id="llBall" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onGetVipConfig()">获取vip特权配置信息</a>
+        </li>
+        <li>
+          <a href="javascript:;" >召唤界面关卡抽奖</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onPointLottery()">抽奖</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onPointLotteryUpdate()">抽奖升级</a>
+              <br>
+              <span>关卡id：</span>
+              <input id="pointlotteryid" type="text" />
+              <br>
+              <span>是否升级奖励：</span>
+              <input id="pointlotteryupdate" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >世界BOSS</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onFindRankInfo()">查看排行</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onFindBossInfo()">查询boss挑战信息</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onWorldBossCombat()">挑战BOSS</a>
+              <br>
+              <span>BOSSID：</span>
+              <input id="worldbossid" type="text" />
+              <br>
+              <span>付费加一次：</span>
+              <input id="worldbosspay" type="text" />
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" >排位赛功能</a>
+          <ul>
+            <li>
+              <a href="javascript:;" onclick="onRankedGameEntry()">进入排位赛界面</a>
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onRankedGameCombat()">排位赛挑战</a>
+              <br>
+              <span>被挑战者ID：</span>
+              <input id="rankedGameId" type="text" />
+              <br>
+              <span>被挑战者是否是机器人(0:否，1：是)</span>
+              <input id="isRobot" type="text" />
+              <br>
+              <span>是否消耗5张挑战令挑战前3名(0:否，1：是)</span>
+              <input id="isChallenge" type="text" />
+            </li>
+            <li>
+              <a href="javascript:;" onclick="onRankedGameBuy()">买张挑战令</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onIllAchCfg()">获取图鉴成就配置</a>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onSkillAchCfg()">获取技能配置</a>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onItemCfg()">获取物品配置</a>
+        </li>
+        <li>
+          <a href="javascript:;" onclick="onHeroCfg()">获取式神配置</a>
+        </li>
+      </ul>
+    </div>
+    <div class="resultdiv">
+      <h2>账号信息:</h2>
+      <div id="rolePanel">
+      </div>
+      <h2>APIs Result:</h2>
+      <div id="apiResultPanel">
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

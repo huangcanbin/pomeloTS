@@ -1,0 +1,16 @@
+{
+    "dev": {
+        "host": "192.168.181.54",
+        "port": "3306",
+        "database": "bgx_center",
+        "user": "root",
+        "password": "123abc"
+    },
+    "prod": {
+        "host": "192.168.181.54",
+        "port": "3306",
+        "database": "bgx_center",
+        "user": "root",
+        "password": "123abc"
+    }
+}

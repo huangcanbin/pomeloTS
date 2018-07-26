@@ -1,0 +1,8 @@
+{
+  "development": {
+    "id": "zookeeper-server-1", "host": "192.168.9.169:2181", "path": "/bgyx/master"
+  },
+  "production": {
+    "id": "zookeeper-server-1", "host": "192.168.9.169:2181", "path": "/bgyx/master"
+  }
+}

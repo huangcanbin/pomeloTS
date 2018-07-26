@@ -1,0 +1,5 @@
+{
+      "masterha":[
+            {"id": "master-server-1", "host": "192.168.51.158", "port":3007}
+      ]
+}

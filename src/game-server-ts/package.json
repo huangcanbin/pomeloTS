@@ -1,0 +1,58 @@
+{
+  "name": "game-server-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "clear": "rimraf -rf ../../dist/game-server ./dist coverage .nyc_output",
+    "build": "clear && tsc",
+    "build:ts": "clear && tsc --sourceMap true --removeComments false --outDir dist --declaration --declarationDir dist/types",
+    "test": "cross-env NODE_ENV=development cross-env TEST_MODE=true nyc mocha --require ts-node/register --exit --reporter spec ./test/**/*.spec.ts",
+    "test:coverage": "cross-env NODE_ENV=development cross-env TEST_MODE=true nyc mocha --exit --reporter spec",
+    "check": "echo \"Checking...\" && tsc && npm run tslint",
+    "tslint": "tslint -c tslint.json -p tsconfig.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "auth-token": "git+http://192.168.9.172:8888/npm-publish/nbframe-token.git",
+    "db-storage": "git+http://192.168.9.172:8888/npm-publish/nbframe-storage.git",
+    "dateformat": ">=2.0.0",
+    "pomelo-logger": "^0.1.7"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.3",
+    "@types/expect": "^1.20.3",
+    "@types/is": "0.0.20",
+    "babel-eslint": "^7.2.3",
+    "chai": "^3.5.0",
+    "cross-env": "^5.1.1",
+    "is": "^3.2.1",
+    "jshint": "^2.9.2",
+    "mocha": "^4.1.0",
+    "mocha-typescript": "^1.1.12",
+    "nyc": "^11.4.1",
+    "rimraf": "^2.6.2",
+    "run-sequence": "^1.2.1",
+    "source-map-support": "^0.5.0",
+    "ts-mocha": "^1.2.0",
+    "ts-node": "^6.0.3",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.2"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".d.ts"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "include": [
+      "./"
+    ],
+    "all": true
+  }
+}

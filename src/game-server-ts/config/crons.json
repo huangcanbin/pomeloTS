@@ -1,0 +1,14 @@
+{  
+    "development":{  
+         "area": [  
+          {"id": 1, "time": "0 0-5 0 * * *", "action": "rankCron.sendAwardMail"},
+          {"id": 2, "time": "0 0 20 * * *", "action": "gameRankedCron.sendAwardMail"}
+          ]  
+    },  
+    "production":{  
+          "area": [ 
+          {"id": 1, "time": "0 0-5 0 * * *", "action": "rankCron.sendAwardMail"},
+          {"id": 2, "time": "0 0 20 * * *", "action": "gameRankedCron.sendAwardMail"}
+          ]  
+    }  
+} 

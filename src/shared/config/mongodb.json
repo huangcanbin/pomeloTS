@@ -1,0 +1,23 @@
+{
+    /*no use*/
+    "development": {
+        "url": "mongodb://192.168.9.169:27017,192.168.9.171:27017/bgyxdb?replicaSet=sjmyhzrepl",
+        "options": {
+            "w": -1
+        },
+        "servers": [
+            {
+                "host": "192.168.9.169",
+                "port": 27017
+            },
+            {
+                "host": "192.168.9.171",
+                "port": 27017
+            }
+        ],
+        "database": "bgyxdb"
+    },
+    "production": {
+        "url": "mongodb://192.168.9.169:27017,192.168.9.171:27017/bgyxdb?w=0&replicaSet=sjmyhzrepl&readPreference=secondary"
+    }
+}
