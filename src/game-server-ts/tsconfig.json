@@ -10,7 +10,7 @@
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "target": "es6",
+        "target": "es2016",
         "watch": false,
         "baseUrl": "./",
         "noUnusedLocals": true,
