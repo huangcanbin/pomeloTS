@@ -1,6 +1,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const is = require("is");
-class arrayUtil {
+class ArrayUtil {
     constructor() {
     }
     static where(arr, obj) {
@@ -118,4 +118,4 @@ class arrayUtil {
         return result;
     }
 }
-exports.default = arrayUtil;
+exports.default = ArrayUtil;

@@ -5,6 +5,11 @@ export = function (): any
     return new ExceptionFilter();
 }
 
+/**
+ * 异常过滤
+ * @author Andrew_Huang
+ * @class ExceptionFilter
+ */
 class ExceptionFilter
 {
     public before(msg: any, session: any, next: any): void

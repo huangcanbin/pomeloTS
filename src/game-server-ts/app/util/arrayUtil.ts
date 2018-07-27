@@ -1,6 +1,12 @@
 import is = require('is');
 
-export default class arrayUtil
+/**
+ * 数组工具
+ * @author Andrew_Huang
+ * @export
+ * @class ArrayUtil
+ */
+export default class ArrayUtil
 {
     public constructor()
     {

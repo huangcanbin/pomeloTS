@@ -1,7 +1,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
-class Formula {
+class configCache {
     constructor() {
     }
 }
-Formula.PdMaxLucreTime = 1000 * 60 * 10;
-exports.default = Formula;
+exports.default = configCache;

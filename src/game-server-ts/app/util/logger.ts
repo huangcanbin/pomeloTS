@@ -1,3 +1,4 @@
 import pomeloLogger = require("pomelo-logger");
-let logger = pomeloLogger.getLogger("bgx", __filename);
+import system = require("system");
+let logger = pomeloLogger.getLogger("bgx", system.__filename);
 export default logger;

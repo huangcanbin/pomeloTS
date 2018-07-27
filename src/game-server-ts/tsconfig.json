@@ -35,7 +35,9 @@
         ]
     },
     "include": [
-        "app/**/*"
+        "node_modules/@types/",
+        "app/**/*",
+        "@types/*"
     ],
     "exclude": [
         "node_modules",
