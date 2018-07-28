@@ -1,3 +1,17 @@
+// import dbLoader = require('./DbLoader');
+// import utils = require('../util/utils');
+// // import async = require('async');
+// import logger = require('pomelo-logger');//.getLogger(__filename);
+// import consts = require('../util/consts');
+// import arrayUtil = require('../util/arrayUtil');
+// import ConfigFormat = require('./configFormat');
+
+/**
+ * 配置数据缓存库
+ * @author Andrew_Huang
+ * @export
+ * @class ConfigCache
+ */
 export default class ConfigCache
 {
     public constructor()

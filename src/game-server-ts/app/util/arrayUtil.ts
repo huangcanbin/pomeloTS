@@ -94,7 +94,7 @@ export default class ArrayUtil
         }
         for (let i = 0; i < arr.length; i++)
         {
-            var item = arr[i];
+            let item = arr[i];
             if (!!predicate && predicate(item))
             {
                 orgArr.push(item);
@@ -131,9 +131,9 @@ export default class ArrayUtil
         {
             return [];
         }
-        for (var i in dic)
+        for (let i in dic)
         {
-            var item = dic[i];
+            let item = dic[i];
             if (predicate(item))
             {
                 result.push(item);
@@ -151,9 +151,9 @@ export default class ArrayUtil
             {
                 return [];
             }
-            for (var i in dic)
+            for (let i in dic)
             {
-                var item = dic[i];
+                let item = dic[i];
                 if (predicate(item))
                 {
                     result.push(item);
@@ -162,9 +162,9 @@ export default class ArrayUtil
         }
         else
         {
-            for (var i in dic)
+            for (let i in dic)
             {
-                var item = dic[i];
+                let item = dic[i];
                 result.push(item);
             }
         }

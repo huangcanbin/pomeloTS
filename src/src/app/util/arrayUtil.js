@@ -61,7 +61,7 @@ class ArrayUtil {
             return orgArr;
         }
         for (let i = 0; i < arr.length; i++) {
-            var item = arr[i];
+            let item = arr[i];
             if (!!predicate && predicate(item)) {
                 orgArr.push(item);
             }
@@ -88,8 +88,8 @@ class ArrayUtil {
         if (!is.function(predicate)) {
             return [];
         }
-        for (var i in dic) {
-            var item = dic[i];
+        for (let i in dic) {
+            let item = dic[i];
             if (predicate(item)) {
                 result.push(item);
             }
@@ -102,16 +102,16 @@ class ArrayUtil {
             if (!is.function(predicate)) {
                 return [];
             }
-            for (var i in dic) {
-                var item = dic[i];
+            for (let i in dic) {
+                let item = dic[i];
                 if (predicate(item)) {
                     result.push(item);
                 }
             }
         }
         else {
-            for (var i in dic) {
-                var item = dic[i];
+            for (let i in dic) {
+                let item = dic[i];
                 result.push(item);
             }
         }
