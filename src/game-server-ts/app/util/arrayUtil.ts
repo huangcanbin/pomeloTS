@@ -6,14 +6,24 @@ import is = require('is');
  * @export
  * @class ArrayUtil
  */
-export default class ArrayUtil
+export class ArrayUtil
 {
     public constructor()
     {
 
     }
 
-    public static where<T>(arr: T[], obj: any): T[]
+    public static instance: ArrayUtil;
+    public static getInstance(): ArrayUtil
+    {
+        if (!this.instance)
+        {
+            this.instance = new ArrayUtil();
+        }
+        return this.instance;
+    }
+
+    public where<T>(arr: T[], obj: any): T[]
     {
         let keys = Object.keys(obj);
         let ret = [];
@@ -32,7 +42,7 @@ export default class ArrayUtil
         return ret;
     }
 
-    public static firstOrDefault<T>(arr: T[], obj: any = null): T
+    public firstOrDefault<T>(arr: T[], obj: any = null): T
     {
         if (obj)
         {
@@ -48,7 +58,7 @@ export default class ArrayUtil
         }
     }
 
-    public static select<T>(arr: T[], selector: ((item: any) => boolean)): T[]
+    public select<T>(arr: T[], selector: ((item: any) => boolean)): T[]
     {
         let ret = [];
         let fun: Function = <Function>selector;
@@ -62,7 +72,7 @@ export default class ArrayUtil
         return ret;
     }
 
-    public static joinArray<T>(arr: T[], joinArr: any, selector: (item: any) => any): T[]
+    public joinArray<T>(arr: T[], joinArr: any, selector: (item: any) => any): T[]
     {
         let result = [];
         for (let i = 0; i < arr.length; i++)
@@ -75,7 +85,7 @@ export default class ArrayUtil
         return result;
     }
 
-    public static sum<T>(arr: T[], selector: (item: any) => number): number
+    public sum<T>(arr: T[], selector: (item: any) => number): number
     {
         let result = 0;
         for (let i: number = 0; i < arr.length; i++)
@@ -86,7 +96,7 @@ export default class ArrayUtil
         return result;
     }
 
-    public static pushArray<T>(orgArr: T[], arr: T[], predicate?: (item: any) => boolean): T[]
+    public pushArray<T>(orgArr: T[], arr: T[], predicate?: (item: any) => boolean): T[]
     {
         if (!arr || arr.length <= 0)
         {
@@ -107,7 +117,7 @@ export default class ArrayUtil
         return orgArr;
     }
 
-    public static dictionaryFirstOrDefault(dic: any, predicate: (item: any) => boolean): any
+    public dictionaryFirstOrDefault(dic: any, predicate: (item: any) => boolean): any
     {
         if (!is.function(predicate))
         {
@@ -124,7 +134,7 @@ export default class ArrayUtil
         return null;
     }
 
-    public static dictionaryWhere(dic: any, predicate: (item: any) => boolean): any
+    public dictionaryWhere(dic: any, predicate: (item: any) => boolean): any
     {
         let result = [];
         if (!is.function(predicate))
@@ -142,7 +152,7 @@ export default class ArrayUtil
         return result;
     }
 
-    public static dictionaryToArray(dic: any, predicate?: (item: any) => boolean): any
+    public dictionaryToArray(dic: any, predicate?: (item: any) => boolean): any
     {
         let result = [];
         if (!!predicate)

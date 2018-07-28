@@ -6,9 +6,8 @@ import dateFormat = require('dateformat');
  * @export
  * @class Utils
  */
-export default class Utils
+export class Utils
 {
-    // control variable of func "myPrint"
     public static isPrintFlag: boolean = false;
     public static aCity: any = {
         11: "北京", 12: "天津", 13: "河北", 14: "山西", 15: "内蒙古", 21: "辽宁", 22: "吉林", 23: "黑龙江", 31: "上海",
@@ -16,6 +15,16 @@ export default class Utils
         44: "广东", 45: "广西", 46: "海南", 50: "重庆", 51: "四川", 52: "贵州", 53: "云南", 54: "西藏", 61: "陕西",
         62: "甘肃", 63: "青海", 64: "宁夏", 65: "新疆", 71: "台湾", 81: "香港", 82: "澳门"
     };
+
+    public static instance: Utils;
+    public static getInstance(): Utils
+    {
+        if (!this.instance)
+        {
+            this.instance = new Utils();
+        }
+        return this.instance;
+    }
 
     public constructor()
     {
@@ -25,12 +34,11 @@ export default class Utils
     /**
      * ID身份确认
      * @author Andrew_Huang
-     * @static
      * @param {string} num
      * @returns {boolean}
      * @memberof Utils
      */
-    public static isIDNumber(num: string): boolean
+    public isIDNumber(num: string): boolean
     {
         let iSum = 0;
         // 身份证长度或格式错误
@@ -66,12 +74,11 @@ export default class Utils
     /**
      * 根据日期获取年龄
      * @author Andrew_Huang
-     * @static
      * @param {number} date
      * @returns {number}
      * @memberof Utils
      */
-    public static getAge(date: string): number
+    public getAge(date: string): number
     {
         let curDate = new Date();
         let curYear = curDate.getFullYear();
@@ -88,12 +95,11 @@ export default class Utils
     /**
      * 返回日期（格式：yyyy-mm-dd）
      * @author Andrew_Huang
-     * @static
      * @param {*} date
      * @returns {string}
      * @memberof Utils
      */
-    public static toDateFormat(date: any): string
+    public toDateFormat(date: any): string
     {
         return dateFormat(date, 'yyyy-mm-dd');
     }
@@ -101,14 +107,13 @@ export default class Utils
     /**
      * 获取当前的时间戳
      * @author Andrew_Huang
-     * @static
      * @param {number} h 时
      * @param {number} m 分
      * @param {number} s 秒
      * @returns {number}
      * @memberof Utils
      */
-    public static getDateOfHour(h: number, m: number, s: number): number
+    public getDateOfHour(h: number, m: number, s: number): number
     {
         let date = new Date(Date.now());
         let year = date.getFullYear();
@@ -121,12 +126,11 @@ export default class Utils
     /**
      * 返回日期（格式：yyyy-mm-dd HH:MM:ss）
      * @author Andrew_Huang
-     * @static
      * @param {*} date
      * @returns {string}
      * @memberof Utils
      */
-    public static toLongDateFormat(date: any): string
+    public toLongDateFormat(date: any): string
     {
         return dateFormat(date, 'yyyy-mm-dd HH:MM:ss');
     }
@@ -134,12 +138,11 @@ export default class Utils
     /**
      * 得到日期
      * @author Andrew_Huang
-     * @static
      * @param {number} numberDate
      * @returns {number}
      * @memberof utils
      */
-    public static getZeroHour(numberDate: number): number
+    public getZeroHour(numberDate: number): number
     {
         let date = new Date(numberDate);
         let year = date.getFullYear();
@@ -152,42 +155,24 @@ export default class Utils
     /**
      * 判断两个时间是否一致
      * @author Andrew_Huang
-     * @static
      * @param {number} time1
      * @param {number} time2
      * @returns {boolean}
      * @memberof Utils
      */
-    public static isSameDate(time1: number, time2: number): boolean
+    public isSameDate(time1: number, time2: number): boolean
     {
         return this.getZeroHour(time1) === this.getZeroHour(time2);
     }
 
     /**
-     * 执行回调函数
-     * @author Andrew_Huang
-     * @static
-     * @param {Function} callback
-     * @param {...any[]} args
-     * @memberof Utils
-     */
-    public static invokeCallback(callback: Function, ...args: any[]): void
-    {
-        if (!!callback && typeof callback === 'function')
-        {
-            callback.apply(null, ...args);
-        }
-    }
-
-    /**
      * 克隆数据对象
      * @author Andrew_Huang
-     * @static
      * @param {*} origin
      * @returns {*}
      * @memberof Utils
      */
-    public static clone(origin: any): any
+    public clone(origin: any): any
     {
         if (!origin)
         {
@@ -207,12 +192,11 @@ export default class Utils
     /**
      * 数据对象个数
      * @author Andrew_Huang
-     * @static
      * @param {*} obj
      * @returns {number}
      * @memberof Utils
      */
-    public static size(obj: any): number
+    public size(obj: any): number
     {
         if (!obj)
         {
@@ -233,12 +217,11 @@ export default class Utils
     /**
      * 根据道具Id获取道具类型
      * @author Andrew_Huang
-     * @static
      * @param {number} itemId
      * @returns {number}
      * @memberof Utils
      */
-    public static getItemType(itemId: number): number
+    public getItemType(itemId: number): number
     {
         let itemType: number = (itemId / 100000) || 0;
         return itemType;
@@ -247,13 +230,12 @@ export default class Utils
     /**
      * 二进制数值判断
      * @author Andrew_Huang
-     * @static
      * @param {number} nConNum
      * @param {number} nTotalNum
      * @returns {boolean}
      * @memberof Utils
      */
-    public static ParseNumbersContain(nConNum: number, nTotalNum: number): boolean
+    public ParseNumbersContain(nConNum: number, nTotalNum: number): boolean
     {
         let nPow = 0
         let nTemp = 0
@@ -276,7 +258,7 @@ export default class Utils
         return bBool
     }
 
-    public static getStack(): any
+    public getStack(): any
     {
         // let orig = Error.prepareStackTrace;
         // Error.prepareStackTrace = function (_: any, stack: any)
@@ -291,17 +273,17 @@ export default class Utils
         return null;
     }
 
-    public static getFileName(stack: any): any
+    public getFileName(stack: any): any
     {
         return stack[1].getFileName();
     }
 
-    public static getLineNumber(stack: any): any
+    public getLineNumber(stack: any): any
     {
         return stack[1].getLineNumber();
     }
 
-    public static myPrint(...args: any[]): void
+    public myPrint(...args: any[]): void
     {
         if (Utils.isPrintFlag)
         {
@@ -310,8 +292,8 @@ export default class Utils
             {
                 return;
             }
-            var stack = this.getStack();
-            var aimStr = '\'' + this.getFileName(stack) + '\' @' + this.getLineNumber(stack) + ' :\n';
+            let stack = this.getStack();
+            let aimStr = '\'' + this.getFileName(stack) + '\' @' + this.getLineNumber(stack) + ' :\n';
             for (var i = 0; i < len; ++i)
             {
                 aimStr += args[i] + ' ';

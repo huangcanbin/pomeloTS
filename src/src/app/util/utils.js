@@ -3,7 +3,13 @@ const dateFormat = require("dateformat");
 class Utils {
     constructor() {
     }
-    static isIDNumber(num) {
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new Utils();
+        }
+        return this.instance;
+    }
+    isIDNumber(num) {
         let iSum = 0;
         if (!/^\d{17}(\d|x)$/i.test(num)) {
             return false;
@@ -25,7 +31,7 @@ class Utils {
         }
         return true;
     }
-    static getAge(date) {
+    getAge(date) {
         let curDate = new Date();
         let curYear = curDate.getFullYear();
         let curMonth = curDate.getMonth();
@@ -37,10 +43,10 @@ class Utils {
         let age = curYear - year - monthFloor;
         return age;
     }
-    static toDateFormat(date) {
+    toDateFormat(date) {
         return dateFormat(date, 'yyyy-mm-dd');
     }
-    static getDateOfHour(h, m, s) {
+    getDateOfHour(h, m, s) {
         let date = new Date(Date.now());
         let year = date.getFullYear();
         let month = date.getMonth();
@@ -48,10 +54,10 @@ class Utils {
         let d = new Date(year, month, day, h, m || 0, s || 0, 0);
         return d.getTime();
     }
-    static toLongDateFormat(date) {
+    toLongDateFormat(date) {
         return dateFormat(date, 'yyyy-mm-dd HH:MM:ss');
     }
-    static getZeroHour(numberDate) {
+    getZeroHour(numberDate) {
         let date = new Date(numberDate);
         let year = date.getFullYear();
         let month = date.getMonth();
@@ -59,15 +65,10 @@ class Utils {
         let d = new Date(year, month, day, 0, 0, 0);
         return d.getTime();
     }
-    static isSameDate(time1, time2) {
+    isSameDate(time1, time2) {
         return this.getZeroHour(time1) === this.getZeroHour(time2);
     }
-    static invokeCallback(callback, ...args) {
-        if (!!callback && typeof callback === 'function') {
-            callback.apply(null, ...args);
-        }
-    }
-    static clone(origin) {
+    clone(origin) {
         if (!origin) {
             return;
         }
@@ -79,7 +80,7 @@ class Utils {
         }
         return obj;
     }
-    static size(obj) {
+    size(obj) {
         if (!obj) {
             return 0;
         }
@@ -91,11 +92,11 @@ class Utils {
         }
         return size;
     }
-    static getItemType(itemId) {
+    getItemType(itemId) {
         let itemType = (itemId / 100000) || 0;
         return itemType;
     }
-    static ParseNumbersContain(nConNum, nTotalNum) {
+    ParseNumbersContain(nConNum, nTotalNum) {
         let nPow = 0;
         let nTemp = 0;
         let bBool = false;
@@ -112,23 +113,23 @@ class Utils {
         }
         return bBool;
     }
-    static getStack() {
+    getStack() {
         return null;
     }
-    static getFileName(stack) {
+    getFileName(stack) {
         return stack[1].getFileName();
     }
-    static getLineNumber(stack) {
+    getLineNumber(stack) {
         return stack[1].getLineNumber();
     }
-    static myPrint(...args) {
+    myPrint(...args) {
         if (Utils.isPrintFlag) {
             let len = args.length;
             if (len <= 0) {
                 return;
             }
-            var stack = this.getStack();
-            var aimStr = '\'' + this.getFileName(stack) + '\' @' + this.getLineNumber(stack) + ' :\n';
+            let stack = this.getStack();
+            let aimStr = '\'' + this.getFileName(stack) + '\' @' + this.getLineNumber(stack) + ' :\n';
             for (var i = 0; i < len; ++i) {
                 aimStr += args[i] + ' ';
             }
@@ -143,4 +144,4 @@ Utils.aCity = {
     44: "广东", 45: "广西", 46: "海南", 50: "重庆", 51: "四川", 52: "贵州", 53: "云南", 54: "西藏", 61: "陕西",
     62: "甘肃", 63: "青海", 64: "宁夏", 65: "新疆", 71: "台湾", 81: "香港", 82: "澳门"
 };
-exports.default = Utils;
+exports.Utils = Utils;

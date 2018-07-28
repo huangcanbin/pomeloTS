@@ -3,7 +3,13 @@ const logger_1 = require("./logger");
 class RouteUtil {
     constructor() {
     }
-    static area(session, msg, app, callback) {
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new RouteUtil();
+        }
+        return this.instance;
+    }
+    area(session, msg, app, callback) {
         let serverId = session.get('serverId');
         let playerId = session.get('playerId');
         let ispush = false;
@@ -36,7 +42,7 @@ class RouteUtil {
         }
         callback(null, serverId);
     }
-    static connector(session, msg, app, callback) {
+    connector(session, msg, app, callback) {
         if (!session) {
             callback(new Error('fail to route to connector server for session is empty'));
             return;
@@ -49,4 +55,4 @@ class RouteUtil {
         callback(null, session.frontendId);
     }
 }
-exports.default = RouteUtil;
+exports.RouteUtil = RouteUtil;

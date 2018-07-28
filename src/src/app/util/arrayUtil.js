@@ -3,7 +3,13 @@ const is = require("is");
 class ArrayUtil {
     constructor() {
     }
-    static where(arr, obj) {
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new ArrayUtil();
+        }
+        return this.instance;
+    }
+    where(arr, obj) {
         let keys = Object.keys(obj);
         let ret = [];
         for (let i = 0; i < arr.length; i++) {
@@ -17,7 +23,7 @@ class ArrayUtil {
         }
         return ret;
     }
-    static firstOrDefault(arr, obj = null) {
+    firstOrDefault(arr, obj = null) {
         if (obj) {
             let items = this.where(arr, obj);
             if (items.length > 0) {
@@ -29,7 +35,7 @@ class ArrayUtil {
             return arr[0];
         }
     }
-    static select(arr, selector) {
+    select(arr, selector) {
         let ret = [];
         let fun = selector;
         for (let i = arr.length - 1; i >= 0; i--) {
@@ -39,7 +45,7 @@ class ArrayUtil {
         }
         return ret;
     }
-    static joinArray(arr, joinArr, selector) {
+    joinArray(arr, joinArr, selector) {
         let result = [];
         for (let i = 0; i < arr.length; i++) {
             let item = arr[i];
@@ -49,14 +55,14 @@ class ArrayUtil {
         }
         return result;
     }
-    static sum(arr, selector) {
+    sum(arr, selector) {
         let result = 0;
         for (let i = 0; i < arr.length; i++) {
             result += selector(arr[i]);
         }
         return result;
     }
-    static pushArray(orgArr, arr, predicate) {
+    pushArray(orgArr, arr, predicate) {
         if (!arr || arr.length <= 0) {
             return orgArr;
         }
@@ -71,7 +77,7 @@ class ArrayUtil {
         }
         return orgArr;
     }
-    static dictionaryFirstOrDefault(dic, predicate) {
+    dictionaryFirstOrDefault(dic, predicate) {
         if (!is.function(predicate)) {
             return null;
         }
@@ -83,7 +89,7 @@ class ArrayUtil {
         }
         return null;
     }
-    static dictionaryWhere(dic, predicate) {
+    dictionaryWhere(dic, predicate) {
         let result = [];
         if (!is.function(predicate)) {
             return [];
@@ -96,7 +102,7 @@ class ArrayUtil {
         }
         return result;
     }
-    static dictionaryToArray(dic, predicate) {
+    dictionaryToArray(dic, predicate) {
         let result = [];
         if (!!predicate) {
             if (!is.function(predicate)) {
@@ -118,4 +124,4 @@ class ArrayUtil {
         return result;
     }
 }
-exports.default = ArrayUtil;
+exports.ArrayUtil = ArrayUtil;

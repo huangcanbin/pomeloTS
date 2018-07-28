@@ -12,49 +12,66 @@
  * @export
  * @class ConfigCache
  */
-export default class ConfigCache
+export class ConfigCache
 {
+    public static instance: ConfigCache;
+    public static getInstance(): ConfigCache
+    {
+        if (!this.instance)
+        {
+            this.instance = new ConfigCache();
+        }
+        return this.instance;
+    }
+
     public constructor()
     {
 
     }
 
-    public static getVarConst(id: string, num: number = 0): number
+    public getVarConst(id: string, num: number = 0): number
     {
         console.log(id);
         console.log(num);
         return 0;
     }
 
-    public static getCharacter(id: number, lv: number = null): any
+    public getCharacter(id: number, lv: number = null): any
     {
         console.log(id);
         console.log(lv);
         return 0;
     }
 
-    public static getHero(id: number, lv: number = null): any
+    public getHero(id: number, lv: number = null): any
     {
         console.log(id);
         console.log(lv);
         return null;
     }
 
-    public static getSkill(id: number, lv: number = null): any
+    public getSkill(id: number, lv: number = null): any
     {
         console.log(id);
         console.log(lv);
         return null;
     }
 
-    public static getIllustrated(id: number, lv: number = null): any
+    public getIllustrated(id: number, lv: number = null): any
     {
         console.log(id);
         console.log(lv);
         return null;
     }
 
-    public static getIllAch(id: number, lv: number = null): any
+    public getIllAch(id: number, lv: number = null): any
+    {
+        console.log(id);
+        console.log(lv);
+        return null;
+    }
+
+    public getMonster(id: number, lv: number = null): any
     {
         console.log(id);
         console.log(lv);

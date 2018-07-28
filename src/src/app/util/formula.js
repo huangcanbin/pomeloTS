@@ -5,12 +5,20 @@ const logger_1 = require("./logger");
 const Utils = require("./Utils");
 class Formula {
     constructor() {
+        this._utils = Utils.Utils.getInstance();
+        this._configCache = ConfigCache.ConfigCache.getInstance();
     }
-    static getMaxLucreTime(player, now, callback = null, context = null) {
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new Formula();
+        }
+        return this.instance;
+    }
+    getMaxLucreTime(player, now, callback = null, context = null) {
         let maxLucreTime = Formula.PdMaxLucreTime;
-        let ctime = Utils.default.getZeroHour(player.createTime) + (31 * 24 * 1000 * 60 * 60);
+        let ctime = this._utils.getZeroHour(player.createTime) + (31 * 24 * 1000 * 60 * 60);
         if (!player.isAdult && now >= ctime) {
-            if (Utils.default.isSameDate(player.lucreUpTime, now)) {
+            if (this._utils.isSameDate(player.lucreUpTime, now)) {
                 maxLucreTime = maxLucreTime - player.lucreTime;
                 maxLucreTime = maxLucreTime > 0 ? maxLucreTime : 0;
             }
@@ -25,7 +33,7 @@ class Formula {
             return { maxLucreTime: maxLucreTime };
         }
     }
-    static settleOnlineBoss(time1, time2, maxLucreTime, expsecond, goldsecond, vipconfig, callback = null, context = null) {
+    settleOnlineBoss(time1, time2, maxLucreTime, expsecond, goldsecond, vipconfig, callback = null, context = null) {
         let exp = 0;
         let gold = 0;
         let msel = 0;
@@ -48,7 +56,7 @@ class Formula {
             return { exp: exp, gold: gold, msel: msel };
         }
     }
-    static settleOfflineBoss(time, surLucTime, expsecond, goldsecond, vipconfig, callback = null, context = null) {
+    settleOfflineBoss(time, surLucTime, expsecond, goldsecond, vipconfig, callback = null, context = null) {
         let now = Date.now();
         time = time <= 0 ? (now - 1000) : time;
         let msel = now - time;
@@ -58,7 +66,7 @@ class Formula {
         let earTs = 0;
         let lucreTime = 0;
         if (surLucTime > -1) {
-            let zeroHour = Utils.default.getZeroHour(now);
+            let zeroHour = this._utils.getZeroHour(now);
             lucreTime = now - zeroHour;
             if (lucreTime > surLucTime) {
                 lucreTime = surLucTime;
@@ -99,11 +107,11 @@ class Formula {
             return { exp: exp, gold: gold, lucreTime: earTs, earTs };
         }
     }
-    static settleRecoverEnergy(time, pretime, enegry, callback, context) {
+    settleRecoverEnergy(time, pretime, enegry, callback, context) {
         let inc = 0;
         pretime = pretime || 0;
-        let interval = ConfigCache.default.getVarConst(consts.default.consts.Keys.ENERGY_INTERVAL);
-        let max = ConfigCache.default.getVarConst(consts.default.consts.Keys.ENERGY_MAX);
+        let interval = this._configCache.getVarConst(consts.default.consts.Keys.ENERGY_INTERVAL);
+        let max = this._configCache.getVarConst(consts.default.consts.Keys.ENERGY_MAX);
         if (enegry < max && time > 0 && pretime > 0) {
             var ts = Math.floor((time - pretime) / 1000);
             inc = Math.floor(ts / interval);
@@ -113,10 +121,10 @@ class Formula {
             callback.call(context, inc);
         }
     }
-    static isHit(rate) {
+    isHit(rate) {
         return Math.random() < rate;
     }
-    static hitOneFromDict(data, filter = null, isadjust = false) {
+    hitOneFromDict(data, filter = null, isadjust = false) {
         let pair;
         let weight = 0;
         let preWeight = 0;
@@ -152,7 +160,7 @@ class Formula {
         }
         return res;
     }
-    static hitOneFromArray(arr, filter = null, isadjust = false) {
+    hitOneFromArray(arr, filter = null, isadjust = false) {
         isadjust = isadjust || false;
         let pair;
         let weight = 0;
@@ -189,16 +197,16 @@ class Formula {
         }
         return res;
     }
-    static settleHeroCombatPower(heros, lineups, illustrateds, lifeLikeProbs, illAch, callback = null, context = null) {
-        let r1 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_1);
-        let r2 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_2);
-        let r3 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_3);
-        let r4 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_4);
-        let r5 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_5);
-        let r6 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_6);
-        let r7 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_7);
-        let r8 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_8);
-        let r9 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_9);
+    settleHeroCombatPower(heros, lineups, illustrateds, lifeLikeProbs, illAch, callback = null, context = null) {
+        let r1 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_1);
+        let r2 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_2);
+        let r3 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_3);
+        let r4 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_4);
+        let r5 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_5);
+        let r6 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_6);
+        let r7 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_7);
+        let r8 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_8);
+        let r9 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_9);
         let power = 0, attack = 0, hp = 0, hit = 0, dodge = 0, speed = 0;
         let cfg, skill;
         let res = {
@@ -215,12 +223,12 @@ class Formula {
             if (hero.pos <= 0)
                 return;
             let heroId = hero.heroId;
-            cfg = ConfigCache.default.getCharacter(heroId) || ConfigCache.default.getHero(heroId);
+            cfg = this._configCache.getCharacter(heroId) || this._configCache.getHero(heroId);
             let lineup = this.getLineup(lineups, hero.pos);
             if (!cfg || !lineup)
                 return;
             let cfgLv = lineup.skillLv + 1;
-            skill = ConfigCache.default.getSkill(cfg.skillId, cfgLv);
+            skill = this._configCache.getSkill(cfg.skillId, cfgLv);
             if (!skill) {
                 return;
             }
@@ -259,9 +267,9 @@ class Formula {
         }, this);
         if (!!illustrateds) {
             let illPower = illustrateds.sum((t) => {
-                let heroCfg = ConfigCache.default.getHero(t.heroId);
+                let heroCfg = this._configCache.getHero(t.heroId);
                 if (!!heroCfg) {
-                    return (ConfigCache.default.getIllustrated(heroCfg.quality) || {}).power || 0;
+                    return (this._configCache.getIllustrated(heroCfg.quality) || {}).power || 0;
                 }
                 else {
                     return 0;
@@ -283,9 +291,9 @@ class Formula {
         }
         if (!!illAch) {
             illAch.forEach((el) => {
-                let tmpSkillId = ConfigCache.default.getIllAch(el.achId).skillId;
-                let tmpSkillLv = ConfigCache.default.getIllAch(el.achId).skillLv;
-                let passiveSkill = ConfigCache.default.getSkill(tmpSkillId, tmpSkillLv);
+                let tmpSkillId = this._configCache.getIllAch(el.achId).skillId;
+                let tmpSkillLv = this._configCache.getIllAch(el.achId).skillLv;
+                let passiveSkill = this._configCache.getSkill(tmpSkillId, tmpSkillLv);
                 if (passiveSkill.passive) {
                     switch (passiveSkill.effectType) {
                         case consts.default.consts.Enums.SkillType.IncAttack:
@@ -321,7 +329,7 @@ class Formula {
         }
         return power;
     }
-    static getLineup(lineups, pos) {
+    getLineup(lineups, pos) {
         let lineup;
         lineups.forEach((el) => {
             if (el.pos === pos) {
@@ -331,7 +339,7 @@ class Formula {
         });
         return lineup;
     }
-    static settleHarmAttack(battle, atk, skill, def) {
+    settleHarmAttack(battle, atk, skill, def) {
         let rete = 1;
         if (atk.power > def.power) {
             rete = Math.min(atk.power / def.power, battle.powerIncRate);
@@ -362,22 +370,22 @@ class Formula {
         let res = atk.attack * rete * percent;
         return harm > 0 ? harm : res;
     }
-    static settleHarmDefense(harm, state, def) {
+    settleHarmDefense(harm, state, def) {
         var percent = state && state.num ? state.num : 0;
         harm = Math.floor(harm * (1 - percent));
         harm = Math.min(harm, def.hp);
         return harm;
     }
-    static getHeroProperty(base, lv1, inc1, lv2, inc2, attach) {
+    getHeroProperty(base, lv1, inc1, lv2, inc2, attach) {
         return base + lv1 * inc1 + lv2 * inc2 + attach;
     }
-    static getHeroPassiveSkill(skill, type) {
+    getHeroPassiveSkill(skill, type) {
         if (!skill || !skill.passive) {
             return 0;
         }
         return skill.effectType === type ? skill.effectNum : 0;
     }
-    static getDropItemNum(ts, checkpoint) {
+    getDropItemNum(ts, checkpoint) {
         let dropNum = 0;
         let maxDropNum = Math.ceil(ts / checkpoint.dropCd);
         let percent = checkpoint.dropPercent / 10000;
@@ -388,9 +396,9 @@ class Formula {
         }
         return dropNum;
     }
-    static getOfflineDropItemNum(ts, checkpoint) {
-        let hour = ConfigCache.default.getVarConst(consts.default.consts.Keys.OFFLINE_DROP_HOUR);
-        let times = ConfigCache.default.getVarConst(consts.default.consts.Keys.OFFLINE_DROP_TIMES);
+    getOfflineDropItemNum(ts, checkpoint) {
+        let hour = this._configCache.getVarConst(consts.default.consts.Keys.OFFLINE_DROP_HOUR);
+        let times = this._configCache.getVarConst(consts.default.consts.Keys.OFFLINE_DROP_TIMES);
         let maxSec = hour * 3600;
         ts = maxSec > ts ? ts : maxSec;
         let dropNum = Math.ceil(ts / checkpoint.dropCd * times);
@@ -398,4 +406,4 @@ class Formula {
     }
 }
 Formula.PdMaxLucreTime = 1000 * 60 * 10;
-exports.default = Formula;
+exports.Formula = Formula;

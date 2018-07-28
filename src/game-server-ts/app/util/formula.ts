@@ -9,19 +9,31 @@ import Utils = require('./Utils');
  * @export
  * @class Formula
  */
-export default class Formula
+export class Formula
 {
     public static PdMaxLucreTime: number = 1000 * 60 * 10; //每天最大收益时间10分钟
+    private _utils: Utils.Utils;
+    private _configCache: ConfigCache.ConfigCache; //配置数据缓存库
 
     public constructor()
     {
-        // logger.getLogger(system.__filename);
+        this._utils = Utils.Utils.getInstance();
+        this._configCache = ConfigCache.ConfigCache.getInstance();
+    }
+
+    public static instance: Formula;
+    public static getInstance(): Formula
+    {
+        if (!this.instance)
+        {
+            this.instance = new Formula();
+        }
+        return this.instance;
     }
 
     /**
      * 获取最大收益时间
      * @author Andrew_Huang
-     * @static
      * @param {*} player     玩家数据
      * @param {number} now   当前时间戳
      * @param {Function} [callback=null]
@@ -29,15 +41,15 @@ export default class Formula
      * @returns {*}
      * @memberof Formula
      */
-    public static getMaxLucreTime(player: any, now: number, callback: Function = null, context: Object = null): any
+    public getMaxLucreTime(player: any, now: number, callback: Function = null, context: Object = null): any
     {
         let maxLucreTime: number = Formula.PdMaxLucreTime;
         //判断创建账号是否超过3 0天,判断是否成年
-        let ctime: number = Utils.default.getZeroHour(player.createTime) + (31 * 24 * 1000 * 60 * 60);
+        let ctime: number = this._utils.getZeroHour(player.createTime) + (31 * 24 * 1000 * 60 * 60);
         if (!player.isAdult && now >= ctime)
         {
             //今天是否计算过收益
-            if (Utils.default.isSameDate(player.lucreUpTime, now))
+            if (this._utils.isSameDate(player.lucreUpTime, now))
             {
                 //最大收益时间-今日收益时间
                 maxLucreTime = maxLucreTime - player.lucreTime;
@@ -60,7 +72,6 @@ export default class Formula
     /**
      * 在线挂机收益
      * @author Andrew_Huang
-     * @static
      * @param {number} time1         当前时间
      * @param {number} time2         上次收益结算时间
      * @param {number} maxLucreTime  最大收益时间，-1:无收益限制
@@ -72,7 +83,7 @@ export default class Formula
      * @returns {*}
      * @memberof Formula
      */
-    public static settleOnlineBoss(time1: number, time2: number, maxLucreTime: number, expsecond: number, goldsecond: number, vipconfig: any, callback: Function = null, context: Object = null): any
+    public settleOnlineBoss(time1: number, time2: number, maxLucreTime: number, expsecond: number, goldsecond: number, vipconfig: any, callback: Function = null, context: Object = null): any
     {
         let exp = 0;
         let gold = 0;
@@ -105,7 +116,6 @@ export default class Formula
     /**
      * 离线挂机收益
      * @author Andrew_Huang
-     * @static
      * @param {number} time        离线时间
      * @param {number} surLucTime  今天剩余最大收益时间,-1:无收益限制
      * @param {number} expsecond   经验收益秒数
@@ -116,7 +126,7 @@ export default class Formula
      * @returns {*}
      * @memberof Formula
      */
-    public static settleOfflineBoss(time: number, surLucTime: number, expsecond: number, goldsecond: number, vipconfig: any, callback: Function = null, context: Object = null): any
+    public settleOfflineBoss(time: number, surLucTime: number, expsecond: number, goldsecond: number, vipconfig: any, callback: Function = null, context: Object = null): any
     {
         let now = Date.now();
         time = time <= 0 ? (now - 1000) : time;
@@ -128,7 +138,7 @@ export default class Formula
         let lucreTime = 0;
         if (surLucTime > -1)
         {
-            let zeroHour = Utils.default.getZeroHour(now);  //获取今天的0时
+            let zeroHour = this._utils.getZeroHour(now);  //获取今天的0时
             lucreTime = now - zeroHour;    //今天的收益时间
             if (lucreTime > surLucTime)
             {
@@ -180,7 +190,6 @@ export default class Formula
     /**
      * 体力的自动恢复
      * @author Andrew_Huang
-     * @static
      * @param {number} time
      * @param {number} pretime
      * @param {number} enegry
@@ -188,12 +197,12 @@ export default class Formula
      * @param {Object} context
      * @memberof Formula
      */
-    public static settleRecoverEnergy(time: number, pretime: number, enegry: number, callback: Function, context: Object): void
+    public settleRecoverEnergy(time: number, pretime: number, enegry: number, callback: Function, context: Object): void
     {
         let inc = 0;
         pretime = pretime || 0;
-        let interval = ConfigCache.default.getVarConst(consts.default.consts.Keys.ENERGY_INTERVAL);
-        let max = ConfigCache.default.getVarConst(consts.default.consts.Keys.ENERGY_MAX);
+        let interval = this._configCache.getVarConst(consts.default.consts.Keys.ENERGY_INTERVAL);
+        let max = this._configCache.getVarConst(consts.default.consts.Keys.ENERGY_MAX);
         if (enegry < max && time > 0 && pretime > 0)
         {
             var ts = Math.floor((time - pretime) / 1000);
@@ -209,12 +218,11 @@ export default class Formula
     /**
      * 是否命中
      * @author Andrew_Huang
-     * @static
      * @param {number} rate
      * @returns {boolean}
      * @memberof Formula
      */
-    public static isHit(rate: number): boolean
+    public isHit(rate: number): boolean
     {
         return Math.random() < rate;
     }
@@ -222,13 +230,12 @@ export default class Formula
     /**
      * 从配置字典中按权重随机命中一个项并返回此项
      * @author Andrew_Huang
-     * @static
      * @param {*} data            数据字典
      * @param {Function} filter   过滤器回调函数
      * @param {boolean} isadjust  是否重新调整比率
      * @memberof Formula
      */
-    public static hitOneFromDict(data: any, filter: (item: any) => boolean = null, isadjust: boolean = false): any
+    public hitOneFromDict(data: any, filter: (item: any) => boolean = null, isadjust: boolean = false): any
     {
         let pair;
         let weight: number = 0;
@@ -279,14 +286,13 @@ export default class Formula
     /**
      * 是否命中
      * @author Andrew_Huang
-     * @static
      * @param {*} arr
      * @param {(item: any) => boolean} [filter=null]
      * @param {*} isadjust
      * @returns {*}
      * @memberof Formula
      */
-    public static hitOneFromArray(arr: any, filter: (item: any) => boolean = null, isadjust: boolean = false): any
+    public hitOneFromArray(arr: any, filter: (item: any) => boolean = null, isadjust: boolean = false): any
     {
         isadjust = isadjust || false;
         let pair;
@@ -336,7 +342,6 @@ export default class Formula
     /**
      * 计算式神战斗力和被动技能属性
      * @author Andrew_Huang
-     * @static
      * @param {*} heros         式神列表
      * @param {*} lineups       上阵式神列表
      * @param {*} illustrateds  成就战力
@@ -347,7 +352,7 @@ export default class Formula
      * @returns {number}
      * @memberof Formula
      */
-    public static settleHeroCombatPower(heros: any, lineups: any, illustrateds: any, lifeLikeProbs: any, illAch: any, callback: Function = null, context: Object = null): number
+    public settleHeroCombatPower(heros: any, lineups: any, illustrateds: any, lifeLikeProbs: any, illAch: any, callback: Function = null, context: Object = null): number
     {
         /**
         * 式神战斗力 = 攻击力 * 常数1 + 血量 * 常数2 + 命中 * 常数3 + 闪避 * 常数4 + 先攻 * 常数5 + 式神品质 * 常数6 + 式神星级 * 常数7 + 式神进化等级 * 常数8 + 式神宝具强化等级 * 常数9 + 图鉴战力；
@@ -355,15 +360,15 @@ export default class Formula
         * 其中：常数1=10、常数2=1、常数3=1、常数4=1、常数5=1、常数6=10、常数7=2、常数8=5、常数9=1。（暂定）    
         */
 
-        let r1 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_1);
-        let r2 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_2);
-        let r3 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_3);
-        let r4 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_4);
-        let r5 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_5);
-        let r6 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_6);
-        let r7 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_7);
-        let r8 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_8);
-        let r9 = ConfigCache.default.getVarConst(consts.default.consts.Keys.COMBAT_POWER_9);
+        let r1 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_1);
+        let r2 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_2);
+        let r3 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_3);
+        let r4 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_4);
+        let r5 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_5);
+        let r6 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_6);
+        let r7 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_7);
+        let r8 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_8);
+        let r9 = this._configCache.getVarConst(consts.default.consts.Keys.COMBAT_POWER_9);
         let power = 0, attack = 0, hp = 0, hit = 0, dodge = 0, speed = 0;
         let cfg, skill;
         let res = {
@@ -382,13 +387,13 @@ export default class Formula
             if (hero.pos <= 0) return;
 
             let heroId = hero.heroId;
-            cfg = ConfigCache.default.getCharacter(heroId) || ConfigCache.default.getHero(heroId);
+            cfg = this._configCache.getCharacter(heroId) || this._configCache.getHero(heroId);
             let lineup = this.getLineup(lineups, hero.pos);
             if (!cfg || !lineup) return;
 
             //进化等级+1=技能等级
             let cfgLv = lineup.skillLv + 1;
-            skill = ConfigCache.default.getSkill(cfg.skillId, cfgLv);
+            skill = this._configCache.getSkill(cfg.skillId, cfgLv);
             if (!skill) 
             {
                 return;
@@ -467,10 +472,10 @@ export default class Formula
         {
             let illPower = illustrateds.sum((t: any) =>
             {
-                let heroCfg = ConfigCache.default.getHero(t.heroId);
+                let heroCfg = this._configCache.getHero(t.heroId);
                 if (!!heroCfg)
                 {
-                    return (ConfigCache.default.getIllustrated(heroCfg.quality) || {}).power || 0;
+                    return (this._configCache.getIllustrated(heroCfg.quality) || {}).power || 0;
                 }
                 else
                 {
@@ -498,9 +503,9 @@ export default class Formula
         {
             illAch.forEach((el: any) =>
             {
-                let tmpSkillId = ConfigCache.default.getIllAch(el.achId).skillId;
-                let tmpSkillLv = ConfigCache.default.getIllAch(el.achId).skillLv;
-                let passiveSkill = ConfigCache.default.getSkill(tmpSkillId, tmpSkillLv);
+                let tmpSkillId = this._configCache.getIllAch(el.achId).skillId;
+                let tmpSkillLv = this._configCache.getIllAch(el.achId).skillLv;
+                let passiveSkill = this._configCache.getSkill(tmpSkillId, tmpSkillLv);
                 if (passiveSkill.passive)
                 {
                     switch (passiveSkill.effectType)
@@ -543,13 +548,12 @@ export default class Formula
     /**
      * 根据阵位编号,获取阵位信息
      * @author Andrew_Huang
-     * @static
      * @param {*} lineups
      * @param {number} pos
      * @returns {*}
      * @memberof Formula
      */
-    public static getLineup(lineups: any, pos: number): any
+    public getLineup(lineups: any, pos: number): any
     {
         let lineup;
         lineups.forEach((el: any) =>
@@ -566,7 +570,6 @@ export default class Formula
     /**
      * 计算基础攻击伤害
      * @author Andrew_Huang
-     * @static
      * @param {*} battle
      * @param {*} atk
      * @param {*} skill
@@ -574,7 +577,7 @@ export default class Formula
      * @returns {number}
      * @memberof Formula
      */
-    public static settleHarmAttack(battle: any, atk: any, skill: any, def: any): number
+    public settleHarmAttack(battle: any, atk: any, skill: any, def: any): number
     {
         //基础伤害=攻击方攻击力属性*战斗力压制系数*技能伤害加成比例
         let rete = 1;
@@ -619,14 +622,13 @@ export default class Formula
     /**
      * 计算防守后的最终伤害
      * @author Andrew_Huang
-     * @static
      * @param {number} harm
      * @param {*} state
      * @param {*} def
      * @returns {number}
      * @memberof Formula
      */
-    public static settleHarmDefense(harm: number, state: any, def: any): number
+    public settleHarmDefense(harm: number, state: any, def: any): number
     {
         //最终伤害=Min[基础伤害*（1-受击方伤害减免比例），受击方剩余血量]
         var percent = state && state.num ? state.num : 0;
@@ -638,7 +640,6 @@ export default class Formula
     /**
      * 计算意单项属性
      * @author Andrew_Huang
-     * @static
      * @param {number} base    初始基础值
      * @param {number} lv1     式神等级
      * @param {number} inc1    式神增加属性
@@ -648,7 +649,7 @@ export default class Formula
      * @returns {number}
      * @memberof Formula
      */
-    public static getHeroProperty(base: number, lv1: number, inc1: number, lv2: number, inc2: number, attach: number): number
+    public getHeroProperty(base: number, lv1: number, inc1: number, lv2: number, inc2: number, attach: number): number
     {
         return base + lv1 * inc1 + lv2 * inc2 + attach;
     }
@@ -656,13 +657,12 @@ export default class Formula
     /**
      * 计算被动技能
      * @author Andrew_Huang
-     * @static
      * @param {*} skill   技能配置
      * @param {number} type
      * @returns {number}
      * @memberof Formula
      */
-    public static getHeroPassiveSkill(skill: any, type: number): number
+    public getHeroPassiveSkill(skill: any, type: number): number
     {
         if (!skill || !skill.passive) 
         {
@@ -674,13 +674,12 @@ export default class Formula
     /**
      * 获取掉落福袋的数量
      * @author Andrew_Huang
-     * @static
      * @param {number} ts    挂机时间
      * @param {*} checkpoint 关卡配置
      * @returns {number}
      * @memberof Formula
      */
-    public static getDropItemNum(ts: number, checkpoint: any): number
+    public getDropItemNum(ts: number, checkpoint: any): number
     {
         let dropNum = 0;
         let maxDropNum = Math.ceil(ts / checkpoint.dropCd);
@@ -698,16 +697,15 @@ export default class Formula
     /**
      * 获取离线掉落福袋的数量
      * @author Andrew_Huang
-     * @static
      * @param {number} ts    挂机时间(单位:秒)
      * @param {*} checkpoint 关卡配置
      * @returns {number}
      * @memberof Formula
      */
-    public static getOfflineDropItemNum(ts: number, checkpoint: any): number
+    public getOfflineDropItemNum(ts: number, checkpoint: any): number
     {
-        let hour = ConfigCache.default.getVarConst(consts.default.consts.Keys.OFFLINE_DROP_HOUR);
-        let times = ConfigCache.default.getVarConst(consts.default.consts.Keys.OFFLINE_DROP_TIMES);
+        let hour = this._configCache.getVarConst(consts.default.consts.Keys.OFFLINE_DROP_HOUR);
+        let times = this._configCache.getVarConst(consts.default.consts.Keys.OFFLINE_DROP_TIMES);
         let maxSec = hour * 3600;
         ts = maxSec > ts ? ts : maxSec;
         let dropNum = Math.ceil(ts / checkpoint.dropCd * times);
