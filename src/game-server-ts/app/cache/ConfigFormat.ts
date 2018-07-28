@@ -715,6 +715,505 @@ export class ConfigFormat
         return items;
     }
 
+    public rechargeRebateAward(data: any): any
+    {
+        let items: any = {};
+        data.cfg_recharge_rebate.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.id,               //*搜索键*/ 
+                type: res.type,           //*返利类型*/ 
+                typeid: res.typeid,       //*充值档次*/ 
+                money: res.money,         //充值金额   
+                items: tempItems,         //物品奖励 itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+                heros: res.heros,         //式神奖励
+                times: res.times,           //次数
+                rebatetype: res.rebatetype  //充值类型，1：当日充值 2：全生涯充值
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public tower(data: any): any
+    {
+        let items: any = {};
+        data.cfg_tower.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.id,               //塔层编号
+                name: res.name,           //塔层名称
+                power: res.power,         //塔怪物战斗力
+                monsterId: res.monsterId, //怪物阵容ID，即cfg_monster表ID。若不触发战斗，则配置为0。
+                exp: res.exp,             //经验奖励数量,必然发放
+                gold: res.gold,           //金币奖励数量,必然发放
+                itemsProb: res.itemsProb, //获取物品奖励的几率
+                items: tempItems,         //任务物品奖励 格式:[{"itemId":100000, "num":100},{"itemId":400000, "num":1}] itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+                herosProb: res.herosProb, //获取式神奖励的几率
+                heros: res.heros,         //任务式神奖励 格式:[{"heroId":10001, "num":2},{"heroId":10002, "num":1}]
+                heroIds: heroIds        //奖励式神的id
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public pointAward(data: any): any
+    {
+        let items: any = {};
+        data.cfg_point_award.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let tempOnceitems = res.onceitems.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.id,               //塔层编号
+                point: res.point,         //领奖需要通过的关卡数 
+                stageid: res.stageid,    //大关卡id   
+                items: tempItems,         //任务物品奖励 格式:[{"itemId":100000, "num":100},{"itemId":400000, "num":1}] itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id            
+                heros: res.heros,         //任务式神奖励 格式:[{"heroId":10001, "num":2},{"heroId":10002, "num":1}]
+                heroIds: heroIds,       //奖励式神的id
+                onceitems: tempOnceitems  //一次充值25元通关的额外奖励
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public signAward(data: any): any
+    {
+        let items: any = {};
+        data.cfg_sign_award.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let tempItems1 = res.items1.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let item = {
+                id: res.id,           //签到天数        
+                items: tempItems,     //签到物品奖励 格式:[{"itemId":100000, "num":100},{"itemId":400000, "num":1}] itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id      
+                items1: tempItems1,   //累计签到物品奖励
+                vipflag: res.vipflag, //是否可vip双倍领奖 
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public heroPieceRain(data: any): any
+    {
+        let items: any = {};
+        data.cfg_heropiece_rain.data.forEach((res: any) =>
+        {
+            let item = {
+                id: res.point,/*搜索键*/
+                num: res.num,
+                rnum: res.rnum,
+                srnum: res.srnum,
+                ssrnum: res.ssrnum,
+                rssrnum: res.rssrnum
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public bossCombat(data: any): any
+    {
+        let items: any = {};
+        data.cfg_point_boss.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.stageId,           //*搜索键*/ 
+                stageId: res.stageId,      //*用来返绐客户端的id*/ 
+                pointId: res.pointId,      //*关卡Id*/ 
+                monsterId: res.monsterId,  //精英BOss挑战对应的BossId  
+                items: tempItems,         //物品奖励 itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+                heros: res.heros,          //式神奖励
+                heroIds: heroIds         //奖励式神的id
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public vipPrivilege(data: any): any
+    {
+        let items: any = {};
+        data.cfg_vip_privilege.data.forEach((res: any) =>
+        {
+            let tempAward = res.award.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let item = {
+                id: res.id,                       //*搜索键*/ 
+                viplev: res.viplev,
+                rechargenum: res.rechargenum,         //*所需累计充值金额*/ 
+                exp: res.exp,                         //*挂机exp收益加成*/ 
+                gold: res.gold,                       //挂机金币收益加成  
+                lotterymoney: res.lotterymoney,       //抽奖所需代币打折
+                lotteryxp: res.lotteryxp,             //XP抽奖所需值减少
+                exchange: res.exchange,               //快捷道具打折
+                bosscombat: res.bosscombat,           //精英BOSS每天扫荡礼包数量
+                heropiecespeed: res.heropiecespeed,   //妖怪雨的下落速度缓慢
+                award: tempAward,                     //Vip每日可领取奖励 itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+                signaward: res.signaward,             //Vip签到倍率拿奖励
+                accusignaward: res.accusignaward      //Vip累计签到倍率拿奖励
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public firstOnlineAward(data: any): any
+    {
+        let items: any = {};
+        data.cfg_online_award.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.id,           //*搜索键*/ 
+                type: res.type,       //*类型*/ 
+                typeid: res.typeid,   //*类型id*/ 
+                time: res.time,
+                items: tempItems,     //物品奖励 itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+                heros: res.heros,     //式神奖励
+                heroIds: heroIds      //奖励式神的id
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public pointLotteryUpdateAward(data: any): any
+    {
+        let items: any = {};
+        data.cfg_point_lottery_update_award.data.forEach((res: any) =>
+        {
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.pointid,               //*搜索键*/ 
+                pointid: res.pointid,       //*关卡id*/ 
+                money: res.money,           //*需充值金额*/ 
+                heros: res.heros,         //*升级后的式神奖励*/ 
+                heroIds: heroIds         //奖励式神的id
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public pointLotteryRandomAward(data: any): any
+    {
+        let items: any = {};
+        data.cfg_point_lottery_random_award.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.id,               //*搜索键*/ 
+                pointid: res.pointid,               //*关卡id*/ 
+                items: tempItems,           //*物品奖励*/ 
+                heros: res.heros,         //*式神奖励*/ 
+                weight: res.weight        //*权重*/ 
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public pointLotteryUpdate(data: any): any
+    {
+        let items: any = {};
+        data.cfg_point_lottery_update.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let item = {
+                id: res.pointid * 100 + res.level,               //*搜索键*/ 
+                pointid: res.pointid,               //*关卡id*/ 
+                items: tempItems,           //*升级材料*/ 
+                level: res.level,          //*关卡抽奖等级*/ 
+                cd: res.cd,          //*关卡抽奖cd*/ 
+                times: res.times,          //*关卡抽奖次数*/ 
+                weight: res.weight        //*权重*/ 
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public lifeLike(data: any): any
+    {
+        let items: any = {};
+        data.cfg_lifelike.data.forEach((res: any) =>
+        {
+            let item = {
+                id: res.id,/*搜索键*/
+                level: res.id,
+                lifeLike: res.lifelike,
+                probsArr: <any>[]
+            };
+            if (res.hp) item.probsArr.push({ probtype: consts.default.consts.Enums.LifeLikeIncType.Hp, value: res.hp, weight: res.prob1 });
+            if (res.attack) item.probsArr.push({ probtype: consts.default.consts.Enums.LifeLikeIncType.Attack, value: res.attack, weight: res.prob2 });
+            if (res.hit) item.probsArr.push({ probtype: consts.default.consts.Enums.LifeLikeIncType.Hit, value: res.hit, weight: res.prob3 });
+            if (res.dodge) item.probsArr.push({ probtype: consts.default.consts.Enums.LifeLikeIncType.Dodge, value: res.dodge, weight: res.prob4 });
+            if (res.speed) item.probsArr.push({ probtype: consts.default.consts.Enums.LifeLikeIncType.Speed, value: res.speed, weight: res.prob5 });
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public rankedGameAward(data: any): any
+    {
+        let items: any = {};
+        data.cfg_ranked_game_award.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.rank,           //*搜索键*/ 
+                rank: res.rank,
+                money: res.money,
+                items: tempItems,         //物品奖励 itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+                heros: res.heros,          //式神奖励
+                heroIds: heroIds         //奖励式神的id
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public robot(data: any): any
+    {
+        let items: any = {};
+        data.cfg_robot.data.forEach((res: any) =>
+        {
+            let item = {
+                id: res.robotId,
+                robotId: res.robotId,
+                name: res.name,
+                monsterId: res.monsterId,
+                headerCode: res.headerCode,
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public worldBoss(data: any): any
+    {
+        let items: any = {};
+        data.cfg_world_boss.data.forEach((res: any) =>
+        {
+            let item = {
+                id: res.id,               //*搜索键*/ 
+                weekday: res.weekday,     //*返利类型*/ 
+                monsterid: res.monsterid, //*对应的怪物id*/ 
+                items: res.items,         //参与奖励 itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+                money: res.money,         //增加一次挑战次数需求的代币
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public worldBossAward(data: any): any
+    {
+        let items: any = {};
+        data.cfg_world_boss_award.data.forEach((res: any) =>
+        {
+            let item = {
+                id: res.id,               //*搜索键*/ 
+                bossid: res.bossid,           //*bossid*/ 
+                rank: res.rank,       //*名次*/ 
+                items: res.items,         //排名奖励 itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public dailyTask(data: any): any
+    {
+        let items: any = {};
+        data.cfg_daily_task.data.forEach((res: any) =>
+        {
+            let item = {
+                id: res.id,/*搜索键*/
+                type: res.type,
+                activity: res.activity,
+                limit: res.limit,
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public dailyTaskAward(data: any): any
+    {
+        let items: any = {};
+        data.cfg_daily_task_award.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.id,           //*搜索键*/ 
+                activity: res.activity,
+                remedialPrice: res.remedialPrice,
+                items: tempItems,         //物品奖励 itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+                heros: res.heros,          //式神奖励
+                heroIds: heroIds         //奖励式神的id
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
+    public achieveTask(data: any): any
+    {
+        let items: any = {};
+        data.cfg_achieve_task.data.forEach((res: any) =>
+        {
+            let tempItems = res.items.select((t: any) =>
+            {
+                return this.parseAndCreateItem(t.itemId, t.num);
+            });
+            let heroIds = [];
+            for (let i: number = 0; i < res.heros.length; i++)
+            {
+                let hero = res.heros[i];
+                for (let j: number = 0; j < (hero.num || 1); j++)
+                {
+                    heroIds.push(hero.heroId);
+                }
+            }
+            let item = {
+                id: res.id,           //*搜索键*/ 
+                type: res.type,
+                score: res.score,
+                items: tempItems,         //物品奖励 itemId: 100000:金币 200000:经验 300000:勾玉 >=400000:物品id
+                heros: res.heros,          //式神奖励
+                heroIds: heroIds         //奖励式神的id
+            };
+            items[item.id] = item;
+        })
+        return items;
+    }
+
     /**
      * 解析怪物技能配置
      * @author Andrew_Huang

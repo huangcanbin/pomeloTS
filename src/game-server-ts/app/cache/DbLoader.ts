@@ -3,6 +3,12 @@ import system = require('system');
 import logger = require('pomelo-logger');
 import consts = require('../util/consts');
 
+/**
+ * 数据库加载器
+ * @author Andrew_Huang
+ * @export
+ * @class DbLoader
+ */
 export default class DbLoader
 {
     public static instance: DbLoader;

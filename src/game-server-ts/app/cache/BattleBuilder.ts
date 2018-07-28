@@ -1,6 +1,12 @@
 import ConfigCache = require('./ConfigCache');
 import Formula = require('../util/Formula');
 
+/**
+ * 战斗角色创建器（怪物和玩家）
+ * @author Andrew_Huang
+ * @export
+ * @class BattleBuilder
+ */
 export default class BattleBuilder
 {
     public static instance: BattleBuilder;
@@ -63,6 +69,18 @@ export default class BattleBuilder
         }
     }
 
+    /**
+     * 创建角色
+     * @author Andrew_Huang
+     * @param {*} player
+     * @param {*} heros
+     * @param {*} lineups
+     * @param {*} illustrateds
+     * @param {*} lifeLikeProbs
+     * @param {*} illAch
+     * @returns {*}
+     * @memberof BattleBuilder
+     */
     public builPlayer(player: any, heros: any, lineups: any, illustrateds: any, lifeLikeProbs: any, illAch: any): any
     {
         let result: any = {};
