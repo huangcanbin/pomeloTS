@@ -1,6 +1,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const ConfigCache = require("./ConfigCache");
-const Formula = require("../util/Formula");
+const Formula = require("../util/formula");
 class BattleBuilder {
     static getInstance() {
         if (!this.instance) {

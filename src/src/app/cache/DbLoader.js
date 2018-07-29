@@ -50,4 +50,4 @@ class DbLoader {
         });
     }
 }
-exports.default = DbLoader;
+exports.DbLoader = DbLoader;

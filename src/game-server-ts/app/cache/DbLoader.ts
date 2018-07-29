@@ -9,7 +9,7 @@ import consts = require('../util/consts');
  * @export
  * @class DbLoader
  */
-export default class DbLoader
+export class DbLoader
 {
     public static instance: DbLoader;
     public static getInstance(): DbLoader

@@ -1,5 +1,5 @@
 import ConfigCache = require('./ConfigCache');
-import Formula = require('../util/Formula');
+import Formula = require('../util/formula');
 
 /**
  * 战斗角色创建器（怪物和玩家）
