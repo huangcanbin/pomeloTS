@@ -28,7 +28,9 @@ export class ConfigCache
     private _utils: utils.Utils;
     private _logger: logger.ILogger;
     private _configFormat: ConfigFormat.ConfigFormat;
+    private _dbLoader: dbLoader.DbLoader;
     private _isLoaded: boolean = false;
+    private _ConfigCache: any;
     private _cfg: DataItem;           //配置总表
     private _const: DataItem;         //常量配置
     private _character: DataItem;     //主角配置
@@ -81,6 +83,7 @@ export class ConfigCache
     {
         this._utils = utils.Utils.getInstance();
         this._configFormat = ConfigFormat.ConfigFormat.getInstance();
+        this._dbLoader = dbLoader.DbLoader.getInstance();
         this._logger = logger.getLogger(system.__filename);
         this.initDataItem();
     }
@@ -1328,7 +1331,7 @@ export class ConfigCache
      * @returns {*}
      * @memberof ConfigCache
      */
-    public getByKey(data: any, id: number, lv: number = null): any
+    public getByKey(data: any, id: any, lv: number = null): any
     {
         let key = lv ? id + '_' + lv : id;
         return data[key];
@@ -1375,7 +1378,7 @@ export class ConfigCache
         }
         var get = function (id: number)
         {
-            let tbData = self._configFormat.item(self);   //获取指定表格数据并格式化
+            let tbData = self._configFormat.item(self._ConfigCache);   //获取指定表格数据并格式化
             let record = self.getByKey(tbData, id); //根据提供的key获取对应的记录
             return record;
         }
@@ -1398,36 +1401,175 @@ export class ConfigCache
                 pos: res.length + 1
             });
         }, this);
-
         return res;
+    }
+
+    /**
+     * 导入config表的配置
+     * @author Andrew_Huang
+     * @param {Function} [callnack=null]
+     * @param {Object} [context=null]
+     * @memberof ConfigCache
+     */
+    public set(callback: Function = null, context: Object = null): void
+    {
+        this._logger.debug('timer is runing : ' + Date.now());
+        this._dbLoader.getConfig('config', (err: any, res: any) =>
+        {
+            //获取config表数据
+            if (!!err)
+            {
+                this._logger.error('config cache load error:%s', err.stack);
+            }
+            //初次全部加载，以后更新版本号不同的
+            this._ConfigCache = this.configUpdate(this._ConfigCache, res);
+            if (callback && context)
+            {
+                callback.call(context, null, true);
+            }
+        }, this);
     }
 
     public getVarConst(id: string, num: number = 0): number
     {
-        console.log(id);
-        console.log(num);
-        return 0;
+        let tbData = this._configFormat.const(this._ConfigCache);   //获取指定表格数据并格式化
+        var obj = this.getByKey(tbData, id) || { num: num || 0 };
+        return obj.num;
+    }
+
+    public getItemitem(id: number, num: number): any
+    {
+        let tbData = this._configFormat.item(this._ConfigCache);   //获取指定表格数据并格式化
+        if (this.getByKey(tbData, id))
+        {
+            return this.parseAndCreateItem(id, num);
+        }
+    }
+
+    public items(): any
+    {
+        let tbData = this._configFormat.item(this._ConfigCache);   //获取指定表格数据并格式化
+        let records = this.getItems(tbData); //调整格式
+        return records;
+    }
+
+    /** 
+     * 配置缓存变动监听
+     * @author Andrew_Huang
+     * @returns {*}
+     * @memberof ConfigCache
+     */
+    public refreshTimer(): any
+    {
+        let refreshTime = this.getVarConst(consts.default.consts.Keys.CACHE_UPDATE_TIME) ? this.getVarConst(consts.default.consts.Keys.CACHE_UPDATE_TIME) : 60 * 1000;
+        setInterval(this.set, refreshTime);
+    }
+
+    public getConst(id: number, lv: number = null): any
+    {
+        //获取指定表格数据并格式化
+        let tbData = this._configFormat.const(this._ConfigCache);
+        //根据提供的key获取对应的记录
+        let record = this.getByKey(tbData, id, lv);
+        return record;
     }
 
     public getCharacter(id: number, lv: number = null): any
     {
-        console.log(id);
-        console.log(lv);
-        return 0;
+        let tbData = this._configFormat.character(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getCheckpoint(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.checkpoint(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getOnlineLottery(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.onlineLottery(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getItem(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.item(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
     }
 
     public getHero(id: number, lv: number = null): any
     {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.hero(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getRoleCost(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.roleCost(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
     }
 
     public getSkill(id: number, lv: number = null): any
     {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.skill(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getSkillState(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.skillState(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getHeroLottery(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.heroLottery(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getLotteryCost(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.lotteryCost(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getGoblin(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.goblin(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getHeroSmelt(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.heroSmelt(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getLvCost(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.lvCost(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getStarlvCost(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.starlvCost(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
     }
 
     public getIllustrated(id: number, lv: number = null): any
@@ -1446,9 +1588,9 @@ export class ConfigCache
 
     public getMonster(id: number, lv: number = null): any
     {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.monster(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
     }
 }
 

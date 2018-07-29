@@ -10,6 +10,7 @@ class ConfigCache {
         this._isLoaded = false;
         this._utils = utils.Utils.getInstance();
         this._configFormat = ConfigFormat.ConfigFormat.getInstance();
+        this._dbLoader = dbLoader.DbLoader.getInstance();
         this._logger = logger.getLogger(system.__filename);
         this.initDataItem();
     }
@@ -1074,7 +1075,7 @@ class ConfigCache {
             }
         }
         var get = function (id) {
-            let tbData = self._configFormat.item(self);
+            let tbData = self._configFormat.item(self._ConfigCache);
             let record = self.getByKey(tbData, id);
             return record;
         };
@@ -1095,25 +1096,112 @@ class ConfigCache {
         }, this);
         return res;
     }
+    set(callback = null, context = null) {
+        this._logger.debug('timer is runing : ' + Date.now());
+        this._dbLoader.getConfig('config', (err, res) => {
+            if (!!err) {
+                this._logger.error('config cache load error:%s', err.stack);
+            }
+            this._ConfigCache = this.configUpdate(this._ConfigCache, res);
+            if (callback && context) {
+                callback.call(context, null, true);
+            }
+        }, this);
+    }
     getVarConst(id, num = 0) {
-        console.log(id);
-        console.log(num);
-        return 0;
+        let tbData = this._configFormat.const(this._ConfigCache);
+        var obj = this.getByKey(tbData, id) || { num: num || 0 };
+        return obj.num;
+    }
+    getItemitem(id, num) {
+        let tbData = this._configFormat.item(this._ConfigCache);
+        if (this.getByKey(tbData, id)) {
+            return this.parseAndCreateItem(id, num);
+        }
+    }
+    items() {
+        let tbData = this._configFormat.item(this._ConfigCache);
+        let records = this.getItems(tbData);
+        return records;
+    }
+    refreshTimer() {
+        let refreshTime = this.getVarConst(consts.default.consts.Keys.CACHE_UPDATE_TIME) ? this.getVarConst(consts.default.consts.Keys.CACHE_UPDATE_TIME) : 60 * 1000;
+        setInterval(this.set, refreshTime);
+    }
+    getConst(id, lv = null) {
+        let tbData = this._configFormat.const(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
     }
     getCharacter(id, lv = null) {
-        console.log(id);
-        console.log(lv);
-        return 0;
+        let tbData = this._configFormat.character(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getCheckpoint(id, lv = null) {
+        let tbData = this._configFormat.checkpoint(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getOnlineLottery(id, lv = null) {
+        let tbData = this._configFormat.onlineLottery(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getItem(id, lv = null) {
+        let tbData = this._configFormat.item(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
     }
     getHero(id, lv = null) {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.hero(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getRoleCost(id, lv = null) {
+        let tbData = this._configFormat.roleCost(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
     }
     getSkill(id, lv = null) {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.skill(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getSkillState(id, lv = null) {
+        let tbData = this._configFormat.skillState(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getHeroLottery(id, lv = null) {
+        let tbData = this._configFormat.heroLottery(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getLotteryCost(id, lv = null) {
+        let tbData = this._configFormat.lotteryCost(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getGoblin(id, lv = null) {
+        let tbData = this._configFormat.goblin(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getHeroSmelt(id, lv = null) {
+        let tbData = this._configFormat.heroSmelt(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getLvCost(id, lv = null) {
+        let tbData = this._configFormat.lvCost(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getStarlvCost(id, lv = null) {
+        let tbData = this._configFormat.starlvCost(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
     }
     getIllustrated(id, lv = null) {
         console.log(id);
@@ -1126,9 +1214,9 @@ class ConfigCache {
         return null;
     }
     getMonster(id, lv = null) {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.monster(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
     }
 }
 exports.ConfigCache = ConfigCache;
