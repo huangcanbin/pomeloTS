@@ -2,7 +2,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const consts = require("./consts");
 const ConfigCache = require("../cache/ConfigCache");
 const logger_1 = require("./logger");
-const Utils = require("./Utils");
+const Utils = require("./utils");
 class Formula {
     constructor() {
         this._utils = Utils.Utils.getInstance();

@@ -1,4 +1,4 @@
-import utils = require('../util/Utils');
+import utils = require('../util/utils');
 import consts = require('../util/consts');
 
 /**
