@@ -1,10 +1,8 @@
 import dbLoader = require('./DbLoader');
 import utils = require('../util/utils');
-// import async = require('async');
 import logger = require('pomelo-logger');
 import system = require('system');
 import consts = require('../util/consts');
-// import arrayUtil = require('../util/arrayUtil');
 import ConfigFormat = require('./configFormat');
 
 /**
