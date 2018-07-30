@@ -20,6 +20,118 @@ class ConfigCache {
         }
         return this.instance;
     }
+    load() {
+        if (this.isLoaded)
+            return;
+        this._isLoaded = true;
+        this.newPromise(this.cfg).then(() => {
+            return this.newPromise(this.const);
+        }).then(() => {
+            return this.newPromise(this.monster);
+        }).then(() => {
+            return this.newPromise(this.character);
+        }).then(() => {
+            return this.newPromise(this.checkpoint);
+        }).then(() => {
+            return this.newPromise(this.onlineLottery);
+        }).then(() => {
+            return this.newPromise(this.item);
+        }).then(() => {
+            return this.newPromise(this.hero);
+        }).then(() => {
+            return this.newPromise(this.roleCost);
+        }).then(() => {
+            return this.newPromise(this.skill);
+        }).then(() => {
+            return this.newPromise(this.skillState);
+        }).then(() => {
+            return this.newPromise(this.heroLottery);
+        }).then(() => {
+            return this.newPromise(this.lotteryCost);
+        }).then(() => {
+            return this.newPromise(this.goblin);
+        }).then(() => {
+            return this.newPromise(this.heroSmelt);
+        }).then(() => {
+            return this.newPromise(this.lvCost);
+        }).then(() => {
+            return this.newPromise(this.propCost);
+        }).then(() => {
+            return this.newPromise(this.skillCost);
+        }).then(() => {
+            return this.newPromise(this.shop);
+        }).then(() => {
+            return this.newPromise(this.shopHeroPool);
+        }).then(() => {
+            return this.newPromise(this.itemLottery);
+        }).then(() => {
+            return this.newPromise(this.illustrated);
+        }).then(() => {
+            return this.newPromise(this.illAch);
+        }).then(() => {
+            return this.newPromise(this.card);
+        }).then(() => {
+            return this.newPromise(this.task);
+        }).then(() => {
+            return this.newPromise(this.recharge);
+        }).then(() => {
+            return this.newPromise(this.tower);
+        }).then(() => {
+            return this.newPromise(this.pointAward);
+        }).then(() => {
+            return this.newPromise(this.signAward);
+        }).then(() => {
+            return this.newPromise(this.heroPieceRain);
+        }).then(() => {
+            return this.newPromise(this.bossCombat);
+        }).then(() => {
+            return this.newPromise(this.vipPrivilege);
+        }).then(() => {
+            return this.newPromise(this.firstOnlineAward);
+        }).then(() => {
+            return this.newPromise(this.rechargeRebateAward);
+        }).then(() => {
+            return this.newPromise(this.lifeLike);
+        }).then(() => {
+            return this.newPromise(this.rankedGameAward);
+        }).then(() => {
+            return this.newPromise(this.robot);
+        }).then(() => {
+            return this.newPromise(this.worldBoss);
+        }).then(() => {
+            return this.newPromise(this.worldBossAward);
+        }).then(() => {
+            return this.newPromise(this.pointLotteryUpdateAward);
+        }).then(() => {
+            return this.newPromise(this.pointLotteryRandomAward);
+        }).then(() => {
+            return this.newPromise(this.pointLotteryUpdate);
+        }).then(() => {
+            return this.newPromise(this.moneyRoulette);
+        }).then(() => {
+            return this.newPromise(this.dailyTask);
+        }).then(() => {
+            return this.newPromise(this.dailyTaskAward);
+        }).then(() => {
+            return this.newPromise(this.achieveTask);
+        }).catch((err) => {
+            if (!!err) {
+                this._logger.error('config cache load error:%s', err.stack);
+            }
+        });
+    }
+    newPromise(cfg) {
+        return new Promise((resolve, reject) => {
+            cfg.load((err) => {
+                if (err) {
+                    return resolve();
+                }
+                else {
+                    return reject(err);
+                }
+            }, this);
+        });
+    }
     initDataItem() {
         this._cfg = new DataItem('config', (res) => {
             return {
@@ -1203,20 +1315,380 @@ class ConfigCache {
         let record = this.getByKey(tbData, id, lv);
         return record;
     }
+    getPropCost(id, lv = null) {
+        let tbData = this._configFormat.propCost(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getSkillCost(id, lv = null) {
+        let tbData = this._configFormat.skillCost(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getShop(id, lv = null) {
+        let tbData = this._configFormat.shop(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getItemLottery(id, lv = null) {
+        let tbData = this._configFormat.itemLottery(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getShopHeroPool(id, lv = null) {
+        let tbData = this._configFormat.shopHeroPool(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
     getIllustrated(id, lv = null) {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.illustrated(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
     }
     getIllAch(id, lv = null) {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.illAch(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
     }
     getMonster(id, lv = null) {
         let tbData = this._configFormat.monster(this._ConfigCache);
         let record = this.getByKey(tbData, id, lv);
         return record;
+    }
+    getCard(id, lv = null) {
+        let tbData = this._configFormat.card(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getTask(id, lv = null) {
+        let tbData = this._configFormat.task(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getRecharge(id, lv = null) {
+        let tbData = this._configFormat.recharge(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getRechargeRebateAward(id, lv = null) {
+        let tbData = this._configFormat.rechargeRebateAward(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getTower(id, lv = null) {
+        let tbData = this._configFormat.tower(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getPointAward(id, lv = null) {
+        let tbData = this._configFormat.pointAward(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getSignAward(id, lv = null) {
+        let tbData = this._configFormat.signAward(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getHeroPieceRain(id, lv = null) {
+        let tbData = this._configFormat.heroPieceRain(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getBossCombat(id, lv = null) {
+        let tbData = this._configFormat.bossCombat(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getVipPrivilege(id, lv = null) {
+        let tbData = this._configFormat.vipPrivilege(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getFirstOnlineAward(id, lv = null) {
+        let tbData = this._configFormat.firstOnlineAward(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getWorldBoss(id, lv = null) {
+        let tbData = this._configFormat.worldBoss(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getWorldBossAward(id, lv = null) {
+        let tbData = this._configFormat.worldBossAward(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getRankedGameAward(id, lv = null) {
+        let tbData = this._configFormat.rankedGameAward(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getRobot(id, lv = null) {
+        let tbData = this._configFormat.robot(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getLifeLike(id, lv = null) {
+        let tbData = this._configFormat.lifeLike(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getPointLotteryUpdateAward(id, lv = null) {
+        let tbData = this._configFormat.pointLotteryUpdateAward(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getPointLotteryRandomAward(id, lv = null) {
+        let tbData = this._configFormat.pointLotteryRandomAward(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getPointLotteryUpdate(id, lv = null) {
+        let tbData = this._configFormat.pointLotteryUpdate(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getDailyTask(id, lv = null) {
+        let tbData = this._configFormat.dailyTask(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getDailyTaskAward(id, lv = null) {
+        let tbData = this._configFormat.dailyTaskAward(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getAchieveTask(id, lv = null) {
+        let tbData = this._configFormat.achieveTask(this._ConfigCache);
+        let record = this.getByKey(tbData, id, lv);
+        return record;
+    }
+    getAllConst() {
+        let tbData = this._configFormat.const(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllCharacter() {
+        let tbData = this._configFormat.character(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllCheckpoint() {
+        let tbData = this._configFormat.checkpoint(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllOnlineLottery() {
+        let tbData = this._configFormat.onlineLottery(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllItem() {
+        let tbData = this._configFormat.item(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllMonster() {
+        let tbData = this._configFormat.monster(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllHero() {
+        let tbData = this._configFormat.hero(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllRoleCost() {
+        let tbData = this._configFormat.roleCost(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllSkill() {
+        let tbData = this._configFormat.skill(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllSkillState() {
+        let tbData = this._configFormat.skillState(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllHeroLottery() {
+        let tbData = this._configFormat.heroLottery(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllGoblin() {
+        let tbData = this._configFormat.goblin(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllLotteryCost() {
+        let tbData = this._configFormat.lotteryCost(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllHeroSmelt() {
+        let tbData = this._configFormat.heroSmelt(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllLvCost() {
+        let tbData = this._configFormat.lvCost(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllStarlvCost() {
+        let tbData = this._configFormat.starlvCost(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllPropCost() {
+        let tbData = this._configFormat.propCost(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllShop() {
+        let tbData = this._configFormat.shop(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllSkillCost() {
+        let tbData = this._configFormat.skillCost(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllItemLottery() {
+        let tbData = this._configFormat.itemLottery(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllShopHeroPool() {
+        let tbData = this._configFormat.shopHeroPool(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllIllustrated() {
+        let tbData = this._configFormat.illustrated(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllIllAch() {
+        let tbData = this._configFormat.illAch(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllCard() {
+        let tbData = this._configFormat.card(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllTask() {
+        let tbData = this._configFormat.task(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllRecharge() {
+        let tbData = this._configFormat.recharge(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllRechargeRebateAward() {
+        let tbData = this._configFormat.rechargeRebateAward(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllTower() {
+        let tbData = this._configFormat.tower(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllPointAward() {
+        let tbData = this._configFormat.pointAward(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllSignAward() {
+        let tbData = this._configFormat.signAward(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllHeroPieceRain() {
+        let tbData = this._configFormat.heroPieceRain(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllBossCombat() {
+        let tbData = this._configFormat.bossCombat(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllVipPrivilege() {
+        let tbData = this._configFormat.vipPrivilege(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllFirstOnlineAward() {
+        let tbData = this._configFormat.firstOnlineAward(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllWorldBoss() {
+        let tbData = this._configFormat.worldBoss(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllLifeLike() {
+        let tbData = this._configFormat.lifeLike(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllRankedGameAward() {
+        let tbData = this._configFormat.rankedGameAward(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllRobot() {
+        let tbData = this._configFormat.robot(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllWorldBossAward() {
+        let tbData = this._configFormat.worldBossAward(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllPointLotteryUpdateAward() {
+        let tbData = this._configFormat.pointLotteryUpdateAward(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllPointLotteryRandomAward() {
+        let tbData = this._configFormat.pointLotteryRandomAward(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllPointLotteryUpdate() {
+        let tbData = this._configFormat.pointLotteryUpdate(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllDailyTask() {
+        let tbData = this._configFormat.dailyTask(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllDailyTaskAward() {
+        let tbData = this._configFormat.dailyTaskAward(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
+    }
+    getAllAchieveTask() {
+        let tbData = this._configFormat.achieveTask(this._ConfigCache);
+        let records = this.getTableAll(tbData);
+        return records;
     }
 }
 exports.ConfigCache = ConfigCache;

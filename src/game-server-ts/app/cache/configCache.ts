@@ -88,6 +88,176 @@ export class ConfigCache
         this.initDataItem();
     }
 
+    /**
+     * 扩展方法
+     * @author Andrew_Huang
+     * @memberof ConfigCache
+     */
+    public load(): void
+    {
+        if (this.isLoaded) return;
+        this._isLoaded = true;
+        this.newPromise(this.cfg).then(() =>
+        {
+            return this.newPromise(this.const);
+        }).then(() =>
+        {
+            return this.newPromise(this.monster);
+        }).then(() =>
+        {
+            return this.newPromise(this.character);
+        }).then(() =>
+        {
+            return this.newPromise(this.checkpoint);
+        }).then(() =>
+        {
+            return this.newPromise(this.onlineLottery);
+        }).then(() =>
+        {
+            return this.newPromise(this.item);
+        }).then(() =>
+        {
+            return this.newPromise(this.hero);
+        }).then(() =>
+        {
+            return this.newPromise(this.roleCost);
+        }).then(() =>
+        {
+            return this.newPromise(this.skill);
+        }).then(() =>
+        {
+            return this.newPromise(this.skillState);
+        }).then(() =>
+        {
+            return this.newPromise(this.heroLottery);
+        }).then(() =>
+        {
+            return this.newPromise(this.lotteryCost);
+        }).then(() =>
+        {
+            return this.newPromise(this.goblin);
+        }).then(() =>
+        {
+            return this.newPromise(this.heroSmelt);
+        }).then(() =>
+        {
+            return this.newPromise(this.lvCost);
+        }).then(() =>
+        {
+            return this.newPromise(this.propCost);
+        }).then(() =>
+        {
+            return this.newPromise(this.skillCost);
+        }).then(() =>
+        {
+            return this.newPromise(this.shop);
+        }).then(() =>
+        {
+            return this.newPromise(this.shopHeroPool);
+        }).then(() =>
+        {
+            return this.newPromise(this.itemLottery);
+        }).then(() =>
+        {
+            return this.newPromise(this.illustrated);
+        }).then(() =>
+        {
+            return this.newPromise(this.illAch);
+        }).then(() =>
+        {
+            return this.newPromise(this.card);
+        }).then(() =>
+        {
+            return this.newPromise(this.task);
+        }).then(() =>
+        {
+            return this.newPromise(this.recharge);
+        }).then(() =>
+        {
+            return this.newPromise(this.tower);
+        }).then(() =>
+        {
+            return this.newPromise(this.pointAward);
+        }).then(() =>
+        {
+            return this.newPromise(this.signAward);
+        }).then(() =>
+        {
+            return this.newPromise(this.heroPieceRain);
+        }).then(() =>
+        {
+            return this.newPromise(this.bossCombat);
+        }).then(() =>
+        {
+            return this.newPromise(this.vipPrivilege);
+        }).then(() =>
+        {
+            return this.newPromise(this.firstOnlineAward);
+        }).then(() =>
+        {
+            return this.newPromise(this.rechargeRebateAward);
+        }).then(() =>
+        {
+            return this.newPromise(this.lifeLike);
+        }).then(() =>
+        {
+            return this.newPromise(this.rankedGameAward);
+        }).then(() =>
+        {
+            return this.newPromise(this.robot);
+        }).then(() =>
+        {
+            return this.newPromise(this.worldBoss);
+        }).then(() =>
+        {
+            return this.newPromise(this.worldBossAward);
+        }).then(() =>
+        {
+            return this.newPromise(this.pointLotteryUpdateAward);
+        }).then(() =>
+        {
+            return this.newPromise(this.pointLotteryRandomAward);
+        }).then(() =>
+        {
+            return this.newPromise(this.pointLotteryUpdate);
+        }).then(() =>
+        {
+            return this.newPromise(this.moneyRoulette);
+        }).then(() =>
+        {
+            return this.newPromise(this.dailyTask);
+        }).then(() =>
+        {
+            return this.newPromise(this.dailyTaskAward);
+        }).then(() =>
+        {
+            return this.newPromise(this.achieveTask);
+        }).catch((err: any) =>
+        {
+            if (!!err)
+            {
+                this._logger.error('config cache load error:%s', err.stack);
+            }
+        });
+    }
+
+    private newPromise(cfg: DataItem): Promise<number>
+    {
+        return new Promise((resolve: Function, reject: Function) =>
+        {
+            cfg.load((err: any) =>
+            {
+                if (err)
+                {
+                    return resolve();
+                } else
+                {
+                    return reject(err);
+                }
+            }, this);
+        })
+    }
+
     private initDataItem(): void
     {
         this._cfg = new DataItem('config', (res: any) =>
@@ -1572,18 +1742,53 @@ export class ConfigCache
         return record;
     }
 
+    public getPropCost(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.propCost(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getSkillCost(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.skillCost(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getShop(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.shop(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getItemLottery(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.itemLottery(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getShopHeroPool(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.shopHeroPool(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
     public getIllustrated(id: number, lv: number = null): any
     {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.illustrated(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
     }
 
     public getIllAch(id: number, lv: number = null): any
     {
-        console.log(id);
-        console.log(lv);
-        return null;
+        let tbData = this._configFormat.illAch(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
     }
 
     public getMonster(id: number, lv: number = null): any
@@ -1591,6 +1796,475 @@ export class ConfigCache
         let tbData = this._configFormat.monster(this._ConfigCache);   //获取指定表格数据并格式化
         let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
         return record;
+    }
+
+    public getCard(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.card(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getTask(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.task(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getRecharge(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.recharge(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getRechargeRebateAward(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.rechargeRebateAward(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getTower(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.tower(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getPointAward(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.pointAward(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getSignAward(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.signAward(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getHeroPieceRain(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.heroPieceRain(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getBossCombat(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.bossCombat(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getVipPrivilege(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.vipPrivilege(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getFirstOnlineAward(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.firstOnlineAward(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getWorldBoss(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.worldBoss(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getWorldBossAward(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.worldBossAward(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getRankedGameAward(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.rankedGameAward(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getRobot(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.robot(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getLifeLike(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.lifeLike(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getPointLotteryUpdateAward(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.pointLotteryUpdateAward(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getPointLotteryRandomAward(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.pointLotteryRandomAward(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getPointLotteryUpdate(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.pointLotteryUpdate(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getDailyTask(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.dailyTask(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getDailyTaskAward(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.dailyTaskAward(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getAchieveTask(id: number, lv: number = null): any
+    {
+        let tbData = this._configFormat.achieveTask(this._ConfigCache);   //获取指定表格数据并格式化
+        let record = this.getByKey(tbData, id, lv); //根据提供的key获取对应的记录
+        return record;
+    }
+
+    public getAllConst(): any
+    {
+        let tbData = this._configFormat.const(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllCharacter(): any
+    {
+        let tbData = this._configFormat.character(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllCheckpoint(): any
+    {
+        let tbData = this._configFormat.checkpoint(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllOnlineLottery(): any
+    {
+        let tbData = this._configFormat.onlineLottery(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllItem(): any
+    {
+        let tbData = this._configFormat.item(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllMonster(): any
+    {
+        let tbData = this._configFormat.monster(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllHero(): any
+    {
+        let tbData = this._configFormat.hero(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllRoleCost(): any
+    {
+        let tbData = this._configFormat.roleCost(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllSkill(): any
+    {
+        let tbData = this._configFormat.skill(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllSkillState(): any
+    {
+        let tbData = this._configFormat.skillState(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllHeroLottery(): any
+    {
+        let tbData = this._configFormat.heroLottery(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllGoblin(): any
+    {
+        let tbData = this._configFormat.goblin(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllLotteryCost(): any
+    {
+        let tbData = this._configFormat.lotteryCost(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllHeroSmelt(): any
+    {
+        let tbData = this._configFormat.heroSmelt(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllLvCost(): any
+    {
+        let tbData = this._configFormat.lvCost(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllStarlvCost(): any
+    {
+        let tbData = this._configFormat.starlvCost(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllPropCost(): any
+    {
+        let tbData = this._configFormat.propCost(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllShop(): any
+    {
+        let tbData = this._configFormat.shop(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllSkillCost(): any
+    {
+        let tbData = this._configFormat.skillCost(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllItemLottery(): any
+    {
+        let tbData = this._configFormat.itemLottery(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllShopHeroPool(): any
+    {
+        let tbData = this._configFormat.shopHeroPool(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllIllustrated(): any
+    {
+        let tbData = this._configFormat.illustrated(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllIllAch(): any
+    {
+        let tbData = this._configFormat.illAch(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllCard(): any
+    {
+        let tbData = this._configFormat.card(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllTask(): any
+    {
+        let tbData = this._configFormat.task(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllRecharge(): any
+    {
+        let tbData = this._configFormat.recharge(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllRechargeRebateAward(): any
+    {
+        let tbData = this._configFormat.rechargeRebateAward(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllTower(): any
+    {
+        let tbData = this._configFormat.tower(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllPointAward(): any
+    {
+        let tbData = this._configFormat.pointAward(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllSignAward(): any
+    {
+        let tbData = this._configFormat.signAward(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllHeroPieceRain(): any
+    {
+        let tbData = this._configFormat.heroPieceRain(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllBossCombat(): any
+    {
+        let tbData = this._configFormat.bossCombat(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllVipPrivilege(): any
+    {
+        let tbData = this._configFormat.vipPrivilege(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllFirstOnlineAward(): any
+    {
+        let tbData = this._configFormat.firstOnlineAward(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllWorldBoss(): any
+    {
+        let tbData = this._configFormat.worldBoss(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllLifeLike(): any
+    {
+        let tbData = this._configFormat.lifeLike(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllRankedGameAward(): any
+    {
+        let tbData = this._configFormat.rankedGameAward(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllRobot(): any
+    {
+        let tbData = this._configFormat.robot(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllWorldBossAward(): any
+    {
+        let tbData = this._configFormat.worldBossAward(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllPointLotteryUpdateAward(): any
+    {
+        let tbData = this._configFormat.pointLotteryUpdateAward(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllPointLotteryRandomAward(): any
+    {
+        let tbData = this._configFormat.pointLotteryRandomAward(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllPointLotteryUpdate(): any
+    {
+        let tbData = this._configFormat.pointLotteryUpdate(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllDailyTask(): any
+    {
+        let tbData = this._configFormat.dailyTask(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllDailyTaskAward(): any
+    {
+        let tbData = this._configFormat.dailyTaskAward(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
+    }
+
+    public getAllAchieveTask(): any
+    {
+        let tbData = this._configFormat.achieveTask(this._ConfigCache);  //获取指定表格数据并格式化
+        let records = this.getTableAll(tbData); //根据提供的key获取对应的记录
+        return records;
     }
 }
 
