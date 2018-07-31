@@ -9,10 +9,15 @@ import { Entity } from "./Entity";
  */
 export class MySelf extends Entity
 {
-    protected playerId: string;
+    protected _playerId: string;
     public constructor(opts: any)
     {
         super(opts);
-        this.playerId = opts.playerId;
+        this._playerId = opts.playerId;
+    }
+
+    public set playerId(value: string)
+    {
+        this.playerId = value;
     }
 }

@@ -1,6 +1,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const MySelf_1 = require("./MySelf");
-const utils = require("../../util/Utils");
+const utils = require("../../util/utils");
 class Card extends MySelf_1.MySelf {
     constructor(opts) {
         super(opts);

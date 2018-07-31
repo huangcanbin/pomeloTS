@@ -7,18 +7,19 @@ class Mongodb {
             con = JSON.parse(con);
         }
         if (con && con.url) {
-            this._config = { url: con.url, options: (con.options || {}) };
+            this._config = { url: con.url, database: con.database, options: (con.options || {}) };
         }
     }
     connect(table, callback, context) {
         mongoClient.MongoClient.connect(this._config.url, this._config.options || {}, (err, db) => {
             if (!!err) {
-                callback.call(context);
+                callback.call(context, err, null, () => { });
                 return;
             }
-            let col = db.collection(table);
-            callback.call(context, col);
-            db.close();
+            let col = db.db(this._config.database).collection(table);
+            callback.call(context, err, col, () => {
+                db.close();
+            });
         });
     }
 }

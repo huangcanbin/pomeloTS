@@ -1,6 +1,6 @@
 import { MySelf } from "./MySelf";
 import consts = require('../../util/consts');
-import ConfigCache = require('../../cache/configCache');
+import ConfigCache = require('../../cache/ConfigCache');
 
 /**
  * 邮件实体数据模型

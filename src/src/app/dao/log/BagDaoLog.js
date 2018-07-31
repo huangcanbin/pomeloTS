@@ -2,8 +2,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const consts = require("../../util/consts");
 const system = require("system");
 const logger = require("pomelo-logger");
-const utils = require("../../util/Utils");
-const dbDriver = require("../../drive/DbDrive");
+const utils = require("../../util/utils");
+const dbDriver = require("../../drive/DbDriver");
 class BagDaoLog {
     static getInstance() {
         if (!this.instance) {
@@ -14,7 +14,7 @@ class BagDaoLog {
     constructor() {
         this._logger = logger.getLogger(system.__filename);
         this._utils = utils.Utils.getInstance();
-        this._dbDriver = dbDriver.DbDrive.getInstance();
+        this._dbDriver = dbDriver.DbDriver.getInstance();
     }
     write(items, from, playerId, areaId, callback, context) {
         if (items.length === 0) {

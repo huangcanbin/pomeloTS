@@ -3,7 +3,7 @@ const nodeFetch = require("node-fetch");
 const md5 = require("md5");
 const system = require("system");
 const logger = require("pomelo-logger");
-let sdCfg = require("../../../shared/config/sdCfg");
+const sdCfg = require("../../../shared/config/sdCfg.json");
 class PushDataToSdService {
     static getInstance() {
         if (!this.instance) {
@@ -13,32 +13,33 @@ class PushDataToSdService {
     }
     constructor() {
         this._logger = logger.getLogger(system.__filename);
+        this._sdCfg = sdCfg;
     }
     pushOnline(paramsObj) {
         paramsObj.StatTime = this.getTimestamp();
-        this.pushData(sdCfg.online.name, paramsObj);
+        this.pushData(this._sdCfg.online.name, paramsObj);
     }
     pushLogin(paramsObj) {
         paramsObj.ChannelCode = paramsObj.ChannelCode || 1000;
         paramsObj.AppVer = paramsObj.AppVer || "v1.0.0.0";
         paramsObj.CreateTime = this.getTimestamp();
-        this.pushData(sdCfg.login.name, paramsObj);
+        this.pushData(this._sdCfg.login.name, paramsObj);
     }
     pushCharge(paramsObj) {
         paramsObj.StatTime = this.getTimestamp();
-        this.pushData(sdCfg.charge.name, paramsObj);
+        this.pushData(this._sdCfg.charge.name, paramsObj);
     }
     pushConsume(pushConsumeModel) {
         pushConsumeModel.StatTime = this.getTimestamp();
-        this.pushData(sdCfg.consume.name, pushConsumeModel);
+        this.pushData(this._sdCfg.consume.name, pushConsumeModel);
     }
     pushEvent(paramsObj) {
         paramsObj.CreateTime = this.getTimestamp();
-        this.pushData(sdCfg.event.name, paramsObj);
+        this.pushData(this._sdCfg.event.name, paramsObj);
     }
     pushData(actionName, paramsObj) {
-        let token = this.getToken(sdCfg.appId, sdCfg[actionName].key);
-        paramsObj.AppID = sdCfg.appId;
+        let token = this.getToken(this._sdCfg.appId, this._sdCfg[actionName].key);
+        paramsObj.AppID = this._sdCfg.appId;
         this.requestSd(actionName, token, paramsObj);
     }
     requestSd(actionName, token, paramsObj) {

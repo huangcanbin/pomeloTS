@@ -7,14 +7,14 @@ import mongodbClient = require('./mongodb/Mongodb');
  * @export
  * @class DbDrive
  */
-export class DbDrive
+export class DbDriver
 {
-    public static instance: DbDrive;
-    public static getInstance(): DbDrive
+    public static instance: DbDriver;
+    public static getInstance(): DbDriver
     {
         if (!this.instance)
         {
-            this.instance = new DbDrive();
+            this.instance = new DbDriver();
         }
         return this.instance;
     }

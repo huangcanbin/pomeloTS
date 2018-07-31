@@ -2,6 +2,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const MySelf_1 = require("./MySelf");
 class FirstOnlineAward extends MySelf_1.MySelf {
     constructor(opts) {
+        if (!opts) {
+            opts = {};
+        }
         super(opts);
         this._type = opts.type;
         this._status = opts.status || 10;

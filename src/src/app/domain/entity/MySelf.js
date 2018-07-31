@@ -3,7 +3,10 @@ const Entity_1 = require("./Entity");
 class MySelf extends Entity_1.Entity {
     constructor(opts) {
         super(opts);
-        this.playerId = opts.playerId;
+        this._playerId = opts.playerId;
+    }
+    set playerId(value) {
+        this.playerId = value;
     }
 }
 exports.MySelf = MySelf;

@@ -1,5 +1,5 @@
 import { MySelf } from "./MySelf";
-import utils = require('../../util/Utils');
+import utils = require('../../util/utils');
 
 /**
  * 特权卡数据模型

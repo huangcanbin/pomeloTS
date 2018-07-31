@@ -1,9 +1,9 @@
-import logger from '../util/Logger';
+import logger from '../util/logger';
 import NbframeStorage, { Database, ConnectCallback } from "nbframe-storage";
 import mongodb = require('mongodb');
 import redis = require("redis");
 import mysql = require('mysql');
-import dbConfig from "./config/";
+import dbConfig from "./config";
 
 /**
  * 定义一个静态的Storage实例，提供给当前项目全局使用

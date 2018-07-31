@@ -3,7 +3,7 @@ const nbframe_storage_1 = require("nbframe-storage");
 const logger = require("pomelo-logger");
 const system = require("system");
 const redis = require("redis");
-let accountConfig = require("../../../shared/config/account-reids");
+const accountConfig = require("../../../shared/config/account-reids.json");
 class CacheStorage {
     static getInstance() {
         if (!this.instance) {

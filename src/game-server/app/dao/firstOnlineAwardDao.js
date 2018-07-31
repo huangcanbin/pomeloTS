@@ -98,9 +98,8 @@ class firstOnlineAwardDao {
                     status: status,
                 }
             };
-            col.updateOne({ playerId: playerId ,typeid: id, type: type}, setter, (err, res) => {
+            col.updateOne({ playerId: playerId, typeid: id, type: type }, setter, (err, res) => {
                 close();
-
                 if (!!err) {
                     utils.invokeCallback(next, err);
                     return;

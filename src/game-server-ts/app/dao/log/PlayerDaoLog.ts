@@ -1,8 +1,8 @@
 import consts = require('../../util/consts');
 import system = require('system');
 import logger = require('pomelo-logger');
-import utils = require('../../util/Utils');
-import dbDriver = require('../../drive/DbDrive');
+import utils = require('../../util/utils');
+import dbDriver = require('../../drive/DbDriver');
 
 export class PlayerDaoLog
 {
@@ -18,12 +18,12 @@ export class PlayerDaoLog
 
     private _logger: logger.ILogger;
     private _utils: utils.Utils;
-    private _dbDriver: dbDriver.DbDrive;
+    private _dbDriver: dbDriver.DbDriver;
     public constructor()
     {
         this._logger = logger.getLogger(system.__filename);
         this._utils = utils.Utils.getInstance();
-        this._dbDriver = dbDriver.DbDrive.getInstance();
+        this._dbDriver = dbDriver.DbDriver.getInstance();
     }
 
     public write(ops: any, from: any, playerId: string, areaId: number, callback: Function, context: Object): void

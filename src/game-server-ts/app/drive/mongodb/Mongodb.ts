@@ -13,22 +13,32 @@ export class Mongodb
         }
         if (con && con.url)
         {
-            this._config = { url: con.url, options: (con.options || {}) };
+            this._config = { url: con.url, database: con.database, options: (con.options || {}) };
         }
     }
 
-    public connect(table: any, callback: Function, context: Object): void
+    /**
+     * 连接数据库
+     * @author Andrew_Huang
+     * @param {*} table           表名
+     * @param {Function} callback 成功回调
+     * @param {Object} context    作用域
+     * @memberof Mongodb
+     */
+    public connect(table: string, callback: Function, context: Object): void
     {
-        mongoClient.MongoClient.connect(this._config.url, this._config.options || {}, (err: mongoClient.MongoError, db: any) =>
+        mongoClient.MongoClient.connect(this._config.url, this._config.options || {}, (err: mongoClient.MongoError, db: mongoClient.MongoClient) =>
         {
             if (!!err)
             {
-                callback.call(context);
+                callback.call(context, err, null, () => { });
                 return;
             }
-            let col = db.collection(table);
-            callback.call(context, col);
-            db.close();
+            let col: mongoClient.Collection = db.db(this._config.database).collection(table)
+            callback.call(context, err, col, () =>
+            {
+                db.close();
+            });
         });
     }
 }

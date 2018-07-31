@@ -1,7 +1,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const MySelf_1 = require("./MySelf");
 const consts = require("../../util/consts");
-const ConfigCache = require("../../cache/configCache");
+const ConfigCache = require("../../cache/ConfigCache");
 class Mail extends MySelf_1.MySelf {
     constructor(opts) {
         super(opts);
