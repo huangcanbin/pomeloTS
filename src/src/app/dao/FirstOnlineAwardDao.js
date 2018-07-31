@@ -1,8 +1,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
-const dbDriver = require("../drive/DbDriver");
 const consts = require("../util/consts");
 const FirstOnlineAward = require("../domain/entity/FirstOnlineAward");
-class FirstOnlineAwardDao {
+const BaseDao_1 = require("./BaseDao");
+class FirstOnlineAwardDao extends BaseDao_1.BaseDao {
     static getInstance() {
         if (!this.instance) {
             this.instance = new FirstOnlineAwardDao();
@@ -10,10 +10,10 @@ class FirstOnlineAwardDao {
         return this.instance;
     }
     constructor() {
-        this._dbDriver = dbDriver.DbDriver.getInstance();
+        super();
     }
     create(firstOnlineAward, playerId, areaId, callback, context) {
-        let client = this._dbDriver.get(areaId, consts.default.consts.DB.Data.name);
+        let client = this.dbDriver.get(areaId, consts.default.consts.DB.Data.name);
         if (!client || !client.connect) {
             callback.call(context, consts.default.consts.RES_MSG.ERR_NO_DATABASE_AVAILABLE);
             return;
@@ -39,7 +39,7 @@ class FirstOnlineAwardDao {
         }, this);
     }
     getByPlayerId(playerId, type, areaId, callback, context) {
-        let client = this._dbDriver.get(areaId, consts.default.consts.DB.Data.name);
+        let client = this.dbDriver.get(areaId, consts.default.consts.DB.Data.name);
         if (!client || !client.connect) {
             callback.call(context, consts.default.consts.RES_MSG.ERR_NO_DATABASE_AVAILABLE);
             return;
@@ -64,7 +64,7 @@ class FirstOnlineAwardDao {
         }, this);
     }
     upStatusByPlayerId(status, type, id, playerId, areaId, callback, context) {
-        let client = this._dbDriver.get(areaId, consts.default.consts.DB.Data.name);
+        let client = this.dbDriver.get(areaId, consts.default.consts.DB.Data.name);
         if (!client || !client.connect) {
             callback.call(context, consts.default.consts.RES_MSG.ERR_NO_DATABASE_AVAILABLE);
             return;

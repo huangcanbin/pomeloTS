@@ -1,7 +1,7 @@
-import dbDriver = require('../drive/DbDriver');
 import consts = require('../util/consts');
 import FirstOnlineAward = require('../domain/entity/FirstOnlineAward');
 import mongoClient = require('mongodb');
+import { BaseDao } from './BaseDao';
 
 /**
  * 玩家关卡奖励领取记录
@@ -9,7 +9,7 @@ import mongoClient = require('mongodb');
  * @export
  * @class FirstOnlineAwardDao
  */
-export class FirstOnlineAwardDao
+export class FirstOnlineAwardDao extends BaseDao
 {
     public static instance: FirstOnlineAwardDao;
     public static getInstance(): FirstOnlineAwardDao
@@ -21,11 +21,9 @@ export class FirstOnlineAwardDao
         return this.instance
     }
 
-    private _dbDriver: dbDriver.DbDriver;
-
     public constructor()
     {
-        this._dbDriver = dbDriver.DbDriver.getInstance();
+        super();
     }
 
     /**
@@ -40,7 +38,7 @@ export class FirstOnlineAwardDao
      */
     public create(firstOnlineAward: any, playerId: string, areaId: number, callback: Function, context: Object): void
     {
-        let client = this._dbDriver.get(areaId, consts.default.consts.DB.Data.name);
+        let client = this.dbDriver.get(areaId, consts.default.consts.DB.Data.name);
         if (!client || !client.connect)
         {
             callback.call(context, consts.default.consts.RES_MSG.ERR_NO_DATABASE_AVAILABLE);
@@ -83,7 +81,7 @@ export class FirstOnlineAwardDao
      */
     public getByPlayerId(playerId: string, type: number, areaId: number, callback: Function, context: Object): void
     {
-        let client = this._dbDriver.get(areaId, consts.default.consts.DB.Data.name);
+        let client = this.dbDriver.get(areaId, consts.default.consts.DB.Data.name);
         if (!client || !client.connect)
         {
             callback.call(context, consts.default.consts.RES_MSG.ERR_NO_DATABASE_AVAILABLE);
@@ -127,7 +125,7 @@ export class FirstOnlineAwardDao
      */
     public upStatusByPlayerId(status: number, type: number, id: number, playerId: string, areaId: number, callback: Function, context: Object): void
     {
-        let client = this._dbDriver.get(areaId, consts.default.consts.DB.Data.name);
+        let client = this.dbDriver.get(areaId, consts.default.consts.DB.Data.name);
         if (!client || !client.connect)
         {
             callback.call(context, consts.default.consts.RES_MSG.ERR_NO_DATABASE_AVAILABLE);
