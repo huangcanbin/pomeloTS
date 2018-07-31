@@ -2,7 +2,7 @@ import NbframeStorage, { Database, ConnectCallback } from "nbframe-storage";
 import logger = require('pomelo-logger');
 import system = require('system');
 import redis = require("redis");
-let accountConfig = require("../../../shared/config/account-reids");
+import accountConfig = require('../../../shared/config/account-reids.json');
 
 /**
  * 定义一个静态的Storage实例，提供给当前项目全局使用
@@ -33,7 +33,7 @@ export class CacheStorage
         this._storage = new NbframeStorage();
         this._storage.driveModule.redis = redis;
         var env = process.env.NODE_ENV || "production";
-        var accountSetting = accountConfig[env] || [];
+        var accountSetting = (<any>accountConfig)[env] || [];
         this._storage.connectError = <ConnectCallback>this.connectError;
         this._db = this._storage.configure(syntax, accountSetting);
         this._db.checkConnect();

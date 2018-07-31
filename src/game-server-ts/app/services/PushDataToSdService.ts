@@ -2,7 +2,7 @@ import nodeFetch = require('node-fetch');
 import md5 = require('md5');
 import system = require('system');
 import logger = require('pomelo-logger');
-let sdCfg = require("../../../shared/config/sdCfg");
+import sdCfg = require('../../../shared/config/sdCfg.json');
 
 /**
  * 推送数据到SD平台
@@ -22,10 +22,12 @@ export class PushDataToSdService
         return this.instance;
     }
     private _logger: logger.ILogger;
+    private _sdCfg: any;
 
     public constructor()
     {
         this._logger = logger.getLogger(system.__filename);
+        this._sdCfg = <any>sdCfg;
     }
 
     /**
@@ -37,7 +39,7 @@ export class PushDataToSdService
     public pushOnline(paramsObj: any)
     {
         paramsObj.StatTime = this.getTimestamp();
-        this.pushData(sdCfg.online.name, paramsObj);
+        this.pushData(this._sdCfg.online.name, paramsObj);
     }
 
     /**
@@ -51,7 +53,7 @@ export class PushDataToSdService
         paramsObj.ChannelCode = paramsObj.ChannelCode || 1000;
         paramsObj.AppVer = paramsObj.AppVer || "v1.0.0.0";
         paramsObj.CreateTime = this.getTimestamp();
-        this.pushData(sdCfg.login.name, paramsObj);
+        this.pushData(this._sdCfg.login.name, paramsObj);
     }
 
     /**
@@ -63,7 +65,7 @@ export class PushDataToSdService
     public pushCharge(paramsObj: any)
     {
         paramsObj.StatTime = this.getTimestamp();
-        this.pushData(sdCfg.charge.name, paramsObj);
+        this.pushData(this._sdCfg.charge.name, paramsObj);
     }
 
     /**
@@ -75,7 +77,7 @@ export class PushDataToSdService
     public pushConsume(pushConsumeModel: any)
     {
         pushConsumeModel.StatTime = this.getTimestamp();
-        this.pushData(sdCfg.consume.name, pushConsumeModel);
+        this.pushData(this._sdCfg.consume.name, pushConsumeModel);
     }
 
     /**
@@ -87,13 +89,13 @@ export class PushDataToSdService
     public pushEvent(paramsObj: any)
     {
         paramsObj.CreateTime = this.getTimestamp();
-        this.pushData(sdCfg.event.name, paramsObj);
+        this.pushData(this._sdCfg.event.name, paramsObj);
     }
 
     private pushData(actionName: string, paramsObj: any)
     {
-        let token = this.getToken(sdCfg.appId, sdCfg[actionName].key);
-        paramsObj.AppID = sdCfg.appId;
+        let token = this.getToken(this._sdCfg.appId, this._sdCfg[actionName].key);
+        paramsObj.AppID = this._sdCfg.appId;
         this.requestSd(actionName, token, paramsObj);
     }
 

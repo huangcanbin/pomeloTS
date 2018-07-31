@@ -16,7 +16,7 @@ export class Player extends Entity
     private _playerId: number;          //玩家全区唯一编号
     private _roleId: number;            //主角配置表的编号
     private _name: string;              //昵称
-    private _uid: string;               //账号ID
+    private _uid: string;               //账号ID,账号唯一编号
     private _maxPos: number;            //式神战位
     private _lv: number;                //等级
     private _exp: number;               //经验
