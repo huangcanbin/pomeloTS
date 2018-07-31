@@ -1,6 +1,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
-class MySelf {
-    constructor() {
+const Entity_1 = require("./Entity");
+class MySelf extends Entity_1.Entity {
+    constructor(opts) {
+        super(opts);
+        this.playerId = opts.playerId;
     }
 }
-exports.default = MySelf;
+exports.MySelf = MySelf;

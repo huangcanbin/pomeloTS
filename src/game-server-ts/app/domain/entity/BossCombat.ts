@@ -1,8 +1,29 @@
+import { MySelf } from "./MySelf";
 
-export default class BossCombat
+/**
+ * 玩家挑战大关卡Boss数据模型
+ * @author Andrew_Huang
+ * @export
+ * @class BossCombat
+ * @extends {MySelf}
+ */
+export class BossCombat extends MySelf
 {
-    public constructor()
-    {
+    private _stageId: number;   //大关卡ID
 
+    public constructor(opts: any)
+    {
+        super(opts);
+        this._stageId = opts.stageId;
+    }
+
+    public get createTime(): number
+    {
+        return this.createTime || 0;
+    }
+
+    public get stageId(): number
+    {
+        return this._stageId;
     }
 }

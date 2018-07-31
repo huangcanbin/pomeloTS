@@ -1,8 +1,18 @@
+import { Entity } from "./Entity";
 
-export default class MySelf
+/**
+ * 实体基类
+ * @author Andrew_Huang
+ * @export
+ * @class MySelf
+ * @extends {Entity}
+ */
+export class MySelf extends Entity
 {
-    public constructor()
+    protected playerId: string;
+    public constructor(opts: any)
     {
-
+        super(opts);
+        this.playerId = opts.playerId;
     }
 }

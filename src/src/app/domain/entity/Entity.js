@@ -1,6 +1,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class Entity {
-    constructor() {
+    constructor(opts) {
+        this.createTime = opts.createTime || Date.now();
     }
 }
-exports.default = Entity;
+exports.Entity = Entity;

@@ -1,9 +1,15 @@
-
-
-export default class Entity
+/**
+ * 实体基类
+ * @author Andrew_Huang
+ * @export
+ * @class Entity
+ */
+export class Entity
 {
-    public constructor()
-    {
+    protected createTime: number;  //创建时间
 
+    public constructor(opts: any)
+    {
+        this.createTime = opts.createTime || Date.now();
     }
 }
