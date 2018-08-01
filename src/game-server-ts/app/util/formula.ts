@@ -1,7 +1,7 @@
 import consts = require('./consts');
 import ConfigCache = require('../cache/ConfigCache');
 import logger from './logger';
-import Utils = require('./utils');
+import Utils = require('./Utils');
 
 /**
  * 格式化工具

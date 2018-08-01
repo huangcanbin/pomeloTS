@@ -4,7 +4,7 @@ class ItemBuilder {
         this._map = {};
         items = items || [];
         let item, temp, config;
-        for (var i = 0; i < items.length; i++) {
+        for (let i = 0; i < items.length; i++) {
             temp = items[i];
             config = configItem.get(temp.id);
             if (!config && temp.type != 1 && temp.type != 2 && temp.type != 3 && temp.type != 9)

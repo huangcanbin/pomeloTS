@@ -1,7 +1,7 @@
 import consts = require('../../util/consts');
 import system = require('system');
 import logger = require('pomelo-logger');
-import utils = require('../../util/utils');
+import utils = require('../../util/Utils');
 import dbDriver = require('../../drive/DbDriver');
 
 export class PlayerDaoLog

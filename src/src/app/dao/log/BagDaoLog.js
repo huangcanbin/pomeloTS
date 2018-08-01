@@ -2,7 +2,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const consts = require("../../util/consts");
 const system = require("system");
 const logger = require("pomelo-logger");
-const utils = require("../../util/utils");
+const utils = require("../../util/Utils");
 const dbDriver = require("../../drive/DbDriver");
 class BagDaoLog {
     static getInstance() {

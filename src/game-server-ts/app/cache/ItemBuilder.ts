@@ -1,5 +1,10 @@
 
-
+/**
+ * 物品数据构造器
+ * @author Andrew_Huang
+ * @export
+ * @class ItemBuilder
+ */
 export class ItemBuilder
 {
     private _map: any;
@@ -9,7 +14,7 @@ export class ItemBuilder
         this._map = {};
         items = items || [];
         let item, temp, config;
-        for (var i: number = 0; i < items.length; i++)
+        for (let i: number = 0; i < items.length; i++)
         {
             temp = items[i];
             config = configItem.get(temp.id);
@@ -27,6 +32,12 @@ export class ItemBuilder
         }
     }
 
+    /**
+     * 金币
+     * @author Andrew_Huang
+     * @returns {number}
+     * @memberof ItemBuilder
+     */
     public getGold(): number
     {
         let gold: number = (this._map[1] || []).sum((t: any) =>
@@ -36,6 +47,12 @@ export class ItemBuilder
         return gold;
     }
 
+    /**
+     * 经验
+     * @author Andrew_Huang
+     * @returns {number}
+     * @memberof ItemBuilder
+     */
     public getExp(): number
     {
         let exp: number = (this._map[2] || []).sum((t: any) =>
@@ -45,6 +62,12 @@ export class ItemBuilder
         return exp;
     }
 
+    /**
+     * 代币
+     * @author Andrew_Huang
+     * @returns {number}
+     * @memberof ItemBuilder
+     */
     public getMoney(): number
     {
         let money: number = (this._map[3] || []).sum((t: any) =>
@@ -54,6 +77,12 @@ export class ItemBuilder
         return money;
     }
 
+    /**
+     * 命格
+     * @author Andrew_Huang
+     * @returns {*}
+     * @memberof ItemBuilder
+     */
     public getLifeLike(): any
     {
         let items: any = [];

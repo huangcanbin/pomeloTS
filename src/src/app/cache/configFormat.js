@@ -1,5 +1,5 @@
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils = require("../util/utils");
+const utils = require("../util/Utils");
 const consts = require("../util/consts");
 class ConfigFormat {
     static getInstance() {

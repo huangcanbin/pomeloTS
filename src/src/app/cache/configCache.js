@@ -1,6 +1,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const dbLoader = require("./DbLoader");
-const utils = require("../util/utils");
+const utils = require("../util/Utils");
 const logger = require("pomelo-logger");
 const system = require("system");
 const consts = require("../util/consts");

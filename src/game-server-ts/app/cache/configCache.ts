@@ -1,5 +1,5 @@
 import dbLoader = require('./DbLoader');
-import utils = require('../util/utils');
+import utils = require('../util/Utils');
 import logger = require('pomelo-logger');
 import system = require('system');
 import consts = require('../util/consts');
